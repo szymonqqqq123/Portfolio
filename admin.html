@@ -556,6 +556,11 @@
               <input type="text" id="githubPath" placeholder="Np. portfolio-data.json">
             </label>
 
+            <label>
+              Folder zdjęć
+              <input type="text" id="githubAssetsDir" placeholder="Np. uploads">
+            </label>
+
             <label class="full">
               GitHub token
               <input type="password" id="githubToken" placeholder="Wklej token z uprawnieniem do edycji contents">
@@ -641,11 +646,15 @@
                 <div class="section-head">
                   <div>
                     <h3>Zdjęcia projektu</h3>
-                    <p style="margin-top:6px">Możesz dodawać kolejne zdjęcia, podmieniać stare i ustawiać kolejność karuzeli.</p>
+                    <p style="margin-top:6px">Możesz dodawać linki albo zwykłe pliki z komputera, podmieniać stare i ustawiać kolejność karuzeli.</p>
                   </div>
-                  <button class="btn-secondary" id="addImageBtn" type="button">Dodaj zdjęcie</button>
+                  <div class="inline-actions">
+                    <button class="btn-secondary" id="addImageBtn" type="button">Dodaj link</button>
+                    <button class="btn-secondary" id="addImageFileBtn" type="button">Dodaj z komputera</button>
+                  </div>
                 </div>
                 <div class="image-list" id="imageList"></div>
+                <input class="hidden-input" type="file" id="imageUploadInput" accept="image/*" multiple>
               </div>
             </div>
           </fieldset>
@@ -686,7 +695,9 @@
         githubRepo: document.getElementById('githubRepo'),
         githubBranch: document.getElementById('githubBranch'),
         githubPath: document.getElementById('githubPath'),
-        githubToken: document.getElementById('githubToken')
+        githubAssetsDir: document.getElementById('githubAssetsDir'),
+        githubToken: document.getElementById('githubToken'),
+        imageUploadInput: document.getElementById('imageUploadInput')
       };
 
       let state = createEmptyState();
@@ -709,6 +720,7 @@
           repo: 'Portfolio',
           branch: 'main',
           path: 'portfolio-data.json',
+          assetsDir: 'uploads',
           token: ''
         };
       }
@@ -819,6 +831,7 @@
           repo: els.githubRepo.value.trim(),
           branch: els.githubBranch.value.trim() || 'main',
           path: els.githubPath.value.trim() || 'portfolio-data.json',
+          assetsDir: els.githubAssetsDir.value.trim() || 'uploads',
           token: els.githubToken.value.trim()
         };
 
@@ -827,7 +840,8 @@
             owner: githubConfig.owner,
             repo: githubConfig.repo,
             branch: githubConfig.branch,
-            path: githubConfig.path
+            path: githubConfig.path,
+            assetsDir: githubConfig.assetsDir
           }));
         } catch (error) {
           console.warn('github config write failed:', error);
@@ -851,6 +865,7 @@
         els.githubRepo.value = githubConfig.repo || '';
         els.githubBranch.value = githubConfig.branch || 'main';
         els.githubPath.value = githubConfig.path || 'portfolio-data.json';
+        els.githubAssetsDir.value = githubConfig.assetsDir || 'uploads';
         els.githubToken.value = githubConfig.token || '';
       }
 
@@ -894,6 +909,103 @@
           return char.charCodeAt(0);
         });
         return new TextDecoder().decode(bytes);
+      }
+
+      function dataUriToGithubUploadInfo(dataUri, project, imageIndex, config) {
+        const match = String(dataUri || '').match(/^data:(image\/[a-zA-Z0-9.+-]+);base64,(.+)$/);
+        if (!match) {
+          return null;
+        }
+
+        const mimeType = match[1].toLowerCase();
+        const base64 = match[2];
+        const extensionMap = {
+          'image/jpeg': 'jpg',
+          'image/jpg': 'jpg',
+          'image/png': 'png',
+          'image/webp': 'webp',
+          'image/gif': 'gif',
+          'image/svg+xml': 'svg',
+          'image/avif': 'avif'
+        };
+        const extension = extensionMap[mimeType] || 'png';
+        const folder = String(config.assetsDir || 'uploads').replace(/^\/+|\/+$/g, '');
+        const fileName = [
+          slugify(project.id || project.title || 'realizacja'),
+          Date.now(),
+          imageIndex + 1
+        ].join('-') + '.' + extension;
+        const path = (folder ? folder + '/' : '') + fileName;
+
+        return {
+          path: path,
+          publicUrl: path,
+          base64: base64
+        };
+      }
+
+      async function putGithubFile(config, path, base64Content, message, sha) {
+        const response = await fetch(
+          'https://api.github.com/repos/' +
+            encodeURIComponent(config.owner) + '/' +
+            encodeURIComponent(config.repo) + '/contents/' +
+            encodeGithubPath(path),
+          {
+            method: 'PUT',
+            headers: getGithubHeaders(config.token),
+            body: JSON.stringify({
+              message: message,
+              content: base64Content,
+              branch: config.branch,
+              sha: sha
+            })
+          }
+        );
+
+        if (!response.ok) {
+          const raw = await response.text();
+          throw new Error('GitHub API error ' + response.status + ': ' + raw);
+        }
+
+        return response.json();
+      }
+
+      async function buildPublishedState(config) {
+        const published = ensureStateShape(JSON.parse(JSON.stringify(state)));
+        const uploadedBySource = {};
+
+        for (const project of published.projects) {
+          const images = Array.isArray(project.images) ? project.images.slice() : [];
+
+          for (let index = 0; index < images.length; index += 1) {
+            const image = images[index];
+            if (!/^data:image\//.test(image || '')) {
+              continue;
+            }
+
+            if (uploadedBySource[image]) {
+              images[index] = uploadedBySource[image];
+              continue;
+            }
+
+            const upload = dataUriToGithubUploadInfo(image, project, index, config);
+            if (!upload) continue;
+
+            await putGithubFile(
+              config,
+              upload.path,
+              upload.base64,
+              'Upload portfolio image via admin panel'
+            );
+
+            uploadedBySource[image] = upload.publicUrl;
+            images[index] = upload.publicUrl;
+          }
+
+          project.images = images;
+        }
+
+        return published;
       }
 
       function loadState() {
@@ -1021,7 +1133,12 @@
       }
 
       function isProbablyImageSource(value) {
-        return /^data:image\//.test(value) || /^https?:\/\//.test(value) || value.startsWith('/');
+        return (
+          /^data:image\//.test(value) ||
+          /^https?:\/\//.test(value) ||
+          value.startsWith('/') ||
+          /^[a-zA-Z0-9._/-]+\.(png|jpe?g|webp|gif|svg|avif)$/i.test(value)
+        );
       }
 
       function formatImageLabel(value) {
@@ -1030,6 +1147,19 @@
           return 'Osadzony obraz (data URI, ' + Math.round(value.length / 1024) + ' KB)';
         }
         return truncateMiddle(value, 90);
+      }
+
+      function fileToDataUrl(file) {
+        return new Promise(function(resolve, reject) {
+          const reader = new FileReader();
+          reader.onload = function(event) {
+            resolve(String(event.target.result || ''));
+          };
+          reader.onerror = function() {
+            reject(new Error('file-read-error'));
+          };
+          reader.readAsDataURL(file);
+        });
       }
 
       function renderImageList() {
@@ -1058,6 +1188,7 @@
                 '<p>' + escapeHtml(formatImageLabel(image)) + '</p>' +
                 '<div class="image-actions">' +
                   '<button class="btn-secondary" type="button" data-action="edit-image" data-index="' + index + '">Edytuj</button>' +
+                  '<button class="btn-secondary" type="button" data-action="replace-image-file" data-index="' + index + '">Zamień plikiem</button>' +
                   '<button class="btn-ghost" type="button" data-action="move-image-up" data-index="' + index + '"' + (index === 0 ? ' disabled' : '') + '>↑</button>' +
                   '<button class="btn-ghost" type="button" data-action="move-image-down" data-index="' + index + '"' + (index === images.length - 1 ? ' disabled' : '') + '>↓</button>' +
                   '<button class="btn-danger" type="button" data-action="delete-image" data-index="' + index + '">Usuń</button>' +
@@ -1211,6 +1342,44 @@
         scheduleSave();
       }
 
+      async function addImagesFromFiles(fileList, replaceIndex) {
+        const current = getSelectedProject();
+        const files = Array.from(fileList || []).filter(function(file) {
+          return file && /^image\//.test(file.type || '');
+        });
+
+        if (!current || !files.length) return;
+
+        try {
+          const dataUrls = [];
+          for (const file of files) {
+            dataUrls.push(await fileToDataUrl(file));
+          }
+
+          if (typeof replaceIndex === 'number' && dataUrls[0]) {
+            current.images[replaceIndex] = dataUrls[0];
+            if (dataUrls.length > 1) {
+              current.images.splice.apply(current.images, [replaceIndex + 1, 0].concat(dataUrls.slice(1)));
+            }
+          } else {
+            current.images = current.images.concat(dataUrls);
+          }
+
+          current.updatedAt = Date.now();
+          renderImageList();
+          renderProjectList();
+          scheduleSave();
+          setStatus('Dodano zdjęcia z komputera do szkicu.', 'ok');
+        } catch (error) {
+          console.error(error);
+          setStatus('Nie udało się odczytać plików z komputera.', 'danger');
+          alert('Nie udało się wczytać wybranych obrazów.');
+        } finally {
+          els.imageUploadInput.value = '';
+          delete els.imageUploadInput.dataset.replaceIndex;
+        }
+      }
+
       function deleteImage(index) {
         const current = getSelectedProject();
         if (!current) return;
@@ -1322,7 +1491,7 @@
         syncCurrentProjectFromFields(false);
         const config = saveGithubConfig();
 
-        if (!config.owner || !config.repo || !config.branch || !config.path || !config.token) {
+        if (!config.owner || !config.repo || !config.branch || !config.path || !config.assetsDir || !config.token) {
           setStatus('Uzupełnij ustawienia GitHuba i token.', 'warn');
           alert('Żeby publikować dla klientów, uzupełnij pola GitHub login, repo, branch, ścieżka pliku i token.');
           return;
@@ -1335,10 +1504,11 @@
         setStatus('Publikuję zmiany do GitHuba...', 'warn');
 
         try {
+          const publishedState = await buildPublishedState(config);
           const currentFile = await fetchGithubContent(config);
           const body = {
             message: 'Update portfolio data via admin panel',
-            content: utf8ToBase64(JSON.stringify(ensureStateShape(state), null, 2)),
+            content: utf8ToBase64(JSON.stringify(publishedState, null, 2)),
             branch: config.branch
           };
 
@@ -1415,6 +1585,10 @@
       document.getElementById('seedBtn').addEventListener('click', seedFromIndex);
       document.getElementById('exportBtn').addEventListener('click', exportJson);
       document.getElementById('addImageBtn').addEventListener('click', addImage);
+      document.getElementById('addImageFileBtn').addEventListener('click', function() {
+        delete els.imageUploadInput.dataset.replaceIndex;
+        els.imageUploadInput.click();
+      });
 
       [
         els.fieldTitle,
@@ -1454,6 +1628,10 @@
         const action = button.getAttribute('data-action');
 
         if (action === 'edit-image') editImage(index);
+        if (action === 'replace-image-file') {
+          els.imageUploadInput.dataset.replaceIndex = String(index);
+          els.imageUploadInput.click();
+        }
         if (action === 'delete-image') deleteImage(index);
         if (action === 'move-image-up') moveImage(index, -1);
         if (action === 'move-image-down') moveImage(index, 1);
@@ -1463,11 +1641,20 @@
         importJsonFile(event.target.files && event.target.files[0]);
       });
 
+      els.imageUploadInput.addEventListener('change', function(event) {
+        const replaceIndex = event.target.dataset.replaceIndex;
+        addImagesFromFiles(
+          event.target.files,
+          replaceIndex == null ? undefined : Number(replaceIndex)
+        );
+      });
+
       [
         els.githubOwner,
         els.githubRepo,
         els.githubBranch,
         els.githubPath,
+        els.githubAssetsDir,
         els.githubToken
       ].forEach(function(input) {
         input.addEventListener('input', saveGithubConfig);
