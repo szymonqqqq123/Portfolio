@@ -1,23 +1,6 @@
 {
   "projects": [
     {
-      "id": "nowa-realizacja-9-e3bf5",
-      "title": "Nowa realizacja",
-      "client": "",
-      "desc": "",
-      "category": "Nowa kategoria",
-      "tags": [],
-      "stat1num": "",
-      "stat1label": "",
-      "stat2num": "",
-      "stat2label": "",
-      "status": "",
-      "url": "",
-      "youtubeUrl": "",
-      "images": [],
-      "updatedAt": 1776106891274
-    },
-    {
       "id": "autonakorfu-001",
       "title": "AutoNaKorfu — Content Marketing & Social Media",
       "client": "AutoNaKorfu.pl",
@@ -37,14 +20,14 @@
       "url": "https://autonakorfu.pl",
       "youtubeUrl": "autonakorfu-video.mp4",
       "images": [
-        "uploads/autonakorfu-001-1776107325000-1.jpg",
-        "uploads/autonakorfu-001-1776107326587-2.jpg",
-        "uploads/autonakorfu-001-1776107328094-3.jpg",
-        "uploads/autonakorfu-001-1776107329275-4.jpg",
-        "uploads/autonakorfu-001-1776107330501-5.jpg",
-        "uploads/autonakorfu-001-1776107331990-6.jpg"
+        "uploads/autonakorfu-001-1776107468827-1.jpg",
+        "uploads/autonakorfu-001-1776107470216-2.jpg",
+        "uploads/autonakorfu-001-1776107471473-3.jpg",
+        "uploads/autonakorfu-001-1776107472993-4.jpg",
+        "uploads/autonakorfu-001-1776107474349-5.jpg",
+        "uploads/autonakorfu-001-1776107475710-6.jpg"
       ],
-      "updatedAt": 1776107324954
+      "updatedAt": 1776107468779
     },
     {
       "id": "smclegal-001",
@@ -67,10 +50,10 @@
       "url": "https://smclegal.pl",
       "youtubeUrl": "",
       "images": [
-        "uploads/smclegal-001-1776107333021-1.jpg",
-        "uploads/smclegal-001-1776107334166-2.jpg",
-        "uploads/smclegal-001-1776107335382-3.jpg",
-        "uploads/smclegal-001-1776107336432-4.jpg"
+        "uploads/smclegal-001-1776107477193-1.jpg",
+        "uploads/smclegal-001-1776107478729-2.jpg",
+        "uploads/smclegal-001-1776107480097-3.jpg",
+        "uploads/smclegal-001-1776107481455-4.jpg"
       ],
       "updatedAt": 1776106841192
     },
@@ -95,10 +78,10 @@
       "url": "https://comodivo.pl",
       "youtubeUrl": "",
       "images": [
-        "uploads/comodivo-001-1776107337645-1.jpg",
-        "uploads/comodivo-001-1776107338921-2.jpg",
-        "uploads/comodivo-001-1776107340133-3.jpg",
-        "uploads/comodivo-001-1776107341357-4.jpg"
+        "uploads/comodivo-001-1776107482764-1.jpg",
+        "uploads/comodivo-001-1776107484015-2.jpg",
+        "uploads/comodivo-001-1776107485210-3.jpg",
+        "uploads/comodivo-001-1776107486484-4.jpg"
       ],
       "updatedAt": 1776106841192
     },
@@ -123,8 +106,8 @@
       "url": "https://wallflow.pl",
       "youtubeUrl": "",
       "images": [
-        "uploads/wallflow-001-1776107342572-1.jpg",
-        "uploads/wallflow-001-1776107343949-2.jpg"
+        "uploads/wallflow-001-1776107488252-1.jpg",
+        "uploads/wallflow-001-1776107490111-2.jpg"
       ],
       "updatedAt": 1776106841192
     },
@@ -149,8 +132,8 @@
       "url": "https://lissy.pl",
       "youtubeUrl": "",
       "images": [
-        "uploads/lissy-001-1776107345241-1.jpg",
-        "uploads/lissy-001-1776107346392-2.jpg"
+        "uploads/lissy-001-1776107491427-1.jpg",
+        "uploads/lissy-001-1776107492665-2.jpg"
       ],
       "updatedAt": 1776106841192
     },
@@ -175,10 +158,10 @@
       "url": "https://biurorachunkowetil.pl",
       "youtubeUrl": "",
       "images": [
-        "uploads/til-001-1776107347689-1.jpg",
-        "uploads/til-001-1776107348922-2.jpg",
-        "uploads/til-001-1776107350255-3.jpg",
-        "uploads/til-001-1776107351438-4.jpg"
+        "uploads/til-001-1776107494050-1.jpg",
+        "uploads/til-001-1776107495188-2.jpg",
+        "uploads/til-001-1776107496589-3.jpg",
+        "uploads/til-001-1776107497911-4.jpg"
       ],
       "updatedAt": 1776106841192
     },
@@ -203,9 +186,9 @@
       "url": "",
       "youtubeUrl": "",
       "images": [
-        "uploads/azzuro-001-1776107352682-1.jpg",
-        "uploads/azzuro-001-1776107353848-2.jpg",
-        "uploads/azzuro-001-1776107355003-3.jpg"
+        "uploads/azzuro-001-1776107499482-1.jpg",
+        "uploads/azzuro-001-1776107500872-2.jpg",
+        "uploads/azzuro-001-1776107502629-3.jpg"
       ],
       "updatedAt": 1776106841192
     },
@@ -230,12 +213,12 @@
       "url": "https://samodzielnysufit.pl",
       "youtubeUrl": "",
       "images": [
-        "uploads/sufit-001-1776107356196-1.jpg",
-        "uploads/sufit-001-1776107357402-2.jpg",
-        "uploads/sufit-001-1776107358714-3.jpg",
-        "uploads/sufit-001-1776107359842-4.jpg",
-        "uploads/sufit-001-1776107361070-5.jpg",
-        "uploads/sufit-001-1776107362168-6.jpg"
+        "uploads/sufit-001-1776107504061-1.jpg",
+        "uploads/sufit-001-1776107505277-2.jpg",
+        "uploads/sufit-001-1776107506385-3.jpg",
+        "uploads/sufit-001-1776107507501-4.jpg",
+        "uploads/sufit-001-1776107508923-5.jpg",
+        "uploads/sufit-001-1776107510279-6.jpg"
       ],
       "updatedAt": 1776106841192
     }
