@@ -1,0 +1,1489 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Panel realizacji</title>
+  <style>
+    :root {
+      --bg: #f4efe7;
+      --panel: rgba(255, 250, 244, 0.88);
+      --panel-strong: #fffaf4;
+      --ink: #1f2328;
+      --muted: #6f655a;
+      --line: rgba(39, 28, 20, 0.12);
+      --brand: #bd5b2b;
+      --brand-dark: #8f3f19;
+      --ok: #156f44;
+      --warn: #a86400;
+      --danger: #b22f29;
+      --shadow: 0 18px 60px rgba(52, 31, 18, 0.12);
+      --radius: 22px;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      font-family: "Segoe UI", system-ui, sans-serif;
+      color: var(--ink);
+      background:
+        radial-gradient(circle at top left, rgba(255, 209, 163, 0.55), transparent 28%),
+        radial-gradient(circle at right center, rgba(215, 146, 96, 0.16), transparent 24%),
+        linear-gradient(180deg, #fbf6ef 0%, #f2ebdf 100%);
+      min-height: 100vh;
+    }
+
+    a {
+      color: inherit;
+    }
+
+    .shell {
+      display: grid;
+      grid-template-columns: 360px minmax(0, 1fr);
+      min-height: 100vh;
+    }
+
+    .sidebar {
+      padding: 28px;
+      border-right: 1px solid var(--line);
+      background: rgba(255, 247, 238, 0.78);
+      backdrop-filter: blur(18px);
+    }
+
+    .main {
+      padding: 28px;
+    }
+
+    .panel {
+      background: var(--panel);
+      border: 1px solid rgba(255, 255, 255, 0.6);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      backdrop-filter: blur(12px);
+    }
+
+    .brand {
+      margin-bottom: 20px;
+    }
+
+    .eyebrow {
+      display: inline-block;
+      margin-bottom: 10px;
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--brand-dark);
+    }
+
+    h1, h2, h3 {
+      margin: 0;
+      line-height: 1.05;
+    }
+
+    h1 {
+      font-size: clamp(30px, 4vw, 50px);
+      letter-spacing: -0.04em;
+      margin-bottom: 12px;
+    }
+
+    h2 {
+      font-size: 22px;
+      letter-spacing: -0.03em;
+    }
+
+    p {
+      margin: 0;
+      color: var(--muted);
+      line-height: 1.55;
+    }
+
+    .stack {
+      display: grid;
+      gap: 18px;
+    }
+
+    .actions,
+    .inline-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+
+    button,
+    .button-link,
+    .file-label {
+      appearance: none;
+      border: 0;
+      border-radius: 999px;
+      padding: 12px 18px;
+      font: inherit;
+      font-weight: 700;
+      cursor: pointer;
+      transition: transform 0.16s ease, background 0.16s ease, color 0.16s ease, opacity 0.16s ease;
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+    }
+
+    button:hover,
+    .button-link:hover,
+    .file-label:hover {
+      transform: translateY(-1px);
+    }
+
+    .btn-primary {
+      background: linear-gradient(135deg, var(--brand), #d67944);
+      color: #fff;
+    }
+
+    .btn-secondary {
+      background: rgba(31, 35, 40, 0.06);
+      color: var(--ink);
+    }
+
+    .btn-danger {
+      background: rgba(178, 47, 41, 0.12);
+      color: var(--danger);
+    }
+
+    .btn-ghost {
+      background: rgba(255, 255, 255, 0.66);
+      color: var(--ink);
+      border: 1px solid var(--line);
+    }
+
+    .meta-card,
+    .list-wrap,
+    .editor-wrap,
+    .tip,
+    .notice {
+      padding: 18px;
+    }
+
+    .meta-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 12px;
+    }
+
+    .meta-card {
+      background: rgba(255, 255, 255, 0.62);
+      border: 1px solid var(--line);
+      border-radius: 18px;
+    }
+
+    .meta-card strong {
+      display: block;
+      font-size: 28px;
+      letter-spacing: -0.04em;
+      margin-bottom: 6px;
+    }
+
+    .tip,
+    .notice {
+      border-radius: 18px;
+      border: 1px solid var(--line);
+      background: rgba(255, 255, 255, 0.6);
+    }
+
+    .notice.warn {
+      background: rgba(255, 244, 224, 0.85);
+      border-color: rgba(168, 100, 0, 0.18);
+    }
+
+    .notice.ok {
+      background: rgba(232, 250, 240, 0.9);
+      border-color: rgba(21, 111, 68, 0.18);
+    }
+
+    .status-line {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      min-height: 20px;
+      font-size: 14px;
+      font-weight: 600;
+      color: var(--muted);
+    }
+
+    .status-dot {
+      width: 10px;
+      height: 10px;
+      border-radius: 999px;
+      background: currentColor;
+      opacity: 0.55;
+    }
+
+    .status-line.ok {
+      color: var(--ok);
+    }
+
+    .status-line.warn {
+      color: var(--warn);
+    }
+
+    .status-line.danger {
+      color: var(--danger);
+    }
+
+    .list-wrap {
+      margin-top: 18px;
+      padding: 12px;
+    }
+
+    .project-list {
+      display: grid;
+      gap: 10px;
+      max-height: calc(100vh - 350px);
+      overflow: auto;
+      padding-right: 4px;
+    }
+
+    .project-item {
+      width: 100%;
+      text-align: left;
+      border-radius: 18px;
+      padding: 14px;
+      background: rgba(255, 255, 255, 0.75);
+      border: 1px solid transparent;
+      display: grid;
+      gap: 6px;
+    }
+
+    .project-item.active {
+      border-color: rgba(189, 91, 43, 0.4);
+      background: linear-gradient(135deg, rgba(255, 233, 219, 0.95), rgba(255, 250, 244, 0.95));
+    }
+
+    .project-item strong {
+      font-size: 16px;
+      letter-spacing: -0.02em;
+    }
+
+    .project-meta {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      font-size: 12px;
+      color: var(--muted);
+    }
+
+    .chip {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 6px 10px;
+      border-radius: 999px;
+      background: rgba(31, 35, 40, 0.06);
+      font-size: 12px;
+      color: var(--muted);
+    }
+
+    .editor-wrap {
+      display: grid;
+      gap: 18px;
+    }
+
+    .form-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 14px;
+    }
+
+    .full {
+      grid-column: 1 / -1;
+    }
+
+    label {
+      display: grid;
+      gap: 8px;
+      font-size: 13px;
+      font-weight: 700;
+      color: var(--ink);
+    }
+
+    input,
+    textarea,
+    select {
+      width: 100%;
+      border-radius: 16px;
+      border: 1px solid rgba(31, 35, 40, 0.12);
+      background: rgba(255, 255, 255, 0.92);
+      padding: 13px 14px;
+      font: inherit;
+      color: var(--ink);
+      resize: vertical;
+    }
+
+    textarea {
+      min-height: 112px;
+    }
+
+    input:focus,
+    textarea:focus,
+    select:focus {
+      outline: 2px solid rgba(189, 91, 43, 0.2);
+      border-color: rgba(189, 91, 43, 0.5);
+    }
+
+    .field-note {
+      font-size: 12px;
+      font-weight: 500;
+      color: var(--muted);
+    }
+
+    fieldset {
+      margin: 0;
+      padding: 0;
+      border: 0;
+      min-width: 0;
+    }
+
+    fieldset:disabled {
+      opacity: 0.55;
+    }
+
+    .section-head {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      margin-bottom: 10px;
+    }
+
+    .image-list {
+      display: grid;
+      gap: 12px;
+    }
+
+    .image-item {
+      border: 1px solid var(--line);
+      border-radius: 18px;
+      padding: 12px;
+      background: rgba(255, 255, 255, 0.7);
+      display: grid;
+      grid-template-columns: 92px minmax(0, 1fr);
+      gap: 12px;
+      align-items: start;
+    }
+
+    .thumb {
+      width: 92px;
+      height: 92px;
+      border-radius: 14px;
+      overflow: hidden;
+      background: linear-gradient(135deg, rgba(189, 91, 43, 0.12), rgba(31, 35, 40, 0.05));
+      display: grid;
+      place-items: center;
+      color: var(--muted);
+      font-size: 12px;
+      text-align: center;
+      border: 1px solid rgba(31, 35, 40, 0.08);
+    }
+
+    .thumb img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+
+    .image-copy {
+      display: grid;
+      gap: 8px;
+    }
+
+    .image-title {
+      font-weight: 700;
+      word-break: break-word;
+    }
+
+    .image-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+
+    .image-actions button {
+      padding: 9px 12px;
+      font-size: 13px;
+    }
+
+    .empty {
+      padding: 18px;
+      border-radius: 18px;
+      border: 1px dashed rgba(31, 35, 40, 0.18);
+      color: var(--muted);
+      background: rgba(255, 255, 255, 0.45);
+      text-align: center;
+    }
+
+    .hidden-input {
+      display: none;
+    }
+
+    @media (max-width: 980px) {
+      .shell {
+        grid-template-columns: 1fr;
+      }
+
+      .sidebar {
+        border-right: 0;
+        border-bottom: 1px solid var(--line);
+      }
+
+      .project-list {
+        max-height: none;
+      }
+
+      .meta-grid,
+      .form-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="shell">
+    <aside class="sidebar">
+      <div class="brand">
+        <div class="eyebrow">Portfolio Admin</div>
+        <h2>Panel realizacji</h2>
+        <p style="margin-top:10px">Tu możesz dodawać projekty, edytować wcześniejsze realizacje i zarządzać zdjęciami bez szukania ich w kodzie.</p>
+      </div>
+
+      <div class="stack">
+        <div class="actions">
+          <button class="btn-primary" id="addProjectBtn" type="button">Nowa realizacja</button>
+          <button class="btn-secondary" id="duplicateProjectBtn" type="button">Duplikuj</button>
+          <button class="btn-danger" id="deleteProjectBtn" type="button">Usuń</button>
+        </div>
+
+        <div class="actions">
+          <button class="btn-ghost" id="moveUpBtn" type="button">Przesuń w górę</button>
+          <button class="btn-ghost" id="moveDownBtn" type="button">Przesuń w dół</button>
+        </div>
+
+        <div class="tip">
+          <p>Panel zapisuje dane pod tym samym kluczem `portfolio_data`, którego używa strona. Działa to lokalnie w tej samej domenie/przeglądarce.</p>
+        </div>
+
+        <div class="list-wrap panel">
+          <div class="section-head">
+            <h3>Lista projektów</h3>
+            <span class="chip" id="projectCountChip">0 pozycji</span>
+          </div>
+          <div class="project-list" id="projectList"></div>
+        </div>
+      </div>
+    </aside>
+
+    <main class="main">
+      <div class="stack">
+        <div>
+          <div class="eyebrow">Edytor</div>
+          <h1>Dodawaj realizacje i zdjęcia samodzielnie</h1>
+          <p style="max-width:760px">To jest prosty panel do szybkiej edycji treści portfolio. Dla bezpieczeństwa dodałem też import i eksport JSON, żebyś mógł zrobić backup przed większymi zmianami.</p>
+        </div>
+
+        <div class="actions">
+          <button class="btn-primary" id="saveBtn" type="button">Zapisz teraz</button>
+          <button class="btn-primary" id="publishBtn" type="button">Publikuj dla klientów</button>
+          <button class="btn-secondary" id="pullGithubBtn" type="button">Pobierz z GitHuba</button>
+          <button class="btn-secondary" id="seedBtn" type="button">Wczytaj dane z index.html</button>
+          <button class="btn-secondary" id="exportBtn" type="button">Eksport JSON</button>
+          <label class="file-label btn-ghost" for="importInput">Import JSON</label>
+          <input class="hidden-input" type="file" id="importInput" accept="application/json">
+          <a class="button-link btn-ghost" href="index.html" target="_blank" rel="noreferrer">Otwórz portfolio</a>
+        </div>
+
+        <div class="status-line" id="statusLine">
+          <span class="status-dot"></span>
+          <span>Gotowe do pracy.</span>
+        </div>
+
+        <div class="meta-grid">
+          <div class="meta-card">
+            <strong id="metaProjects">0</strong>
+            <p>realizacji w danych</p>
+          </div>
+          <div class="meta-card">
+            <strong id="metaImages">0</strong>
+            <p>zdjęć łącznie</p>
+          </div>
+          <div class="meta-card">
+            <strong id="metaSize">0 KB</strong>
+            <p>szacowany rozmiar zapisu</p>
+          </div>
+        </div>
+
+        <div class="notice warn">
+          <p><strong>Ważne:</strong> lokalny zapis nadal działa jako szkic, ale od teraz możesz publikować dane do repo. Po publikacji strona klientów czyta publiczny plik `portfolio-data.json`.</p>
+        </div>
+
+        <div class="editor-wrap panel">
+          <div class="section-head">
+            <div>
+              <h3>Publikacja do GitHuba</h3>
+              <p style="margin-top:6px">Panel może wrzucać `portfolio-data.json` bezpośrednio do repo, z którego działa GitHub Pages.</p>
+            </div>
+          </div>
+
+          <div class="form-grid">
+            <label>
+              GitHub login
+              <input type="text" id="githubOwner" placeholder="Np. szymonqqqq123">
+            </label>
+
+            <label>
+              Repozytorium
+              <input type="text" id="githubRepo" placeholder="Np. Portfolio">
+            </label>
+
+            <label>
+              Branch
+              <input type="text" id="githubBranch" placeholder="Np. main">
+            </label>
+
+            <label>
+              Ścieżka pliku
+              <input type="text" id="githubPath" placeholder="Np. portfolio-data.json">
+            </label>
+
+            <label class="full">
+              GitHub token
+              <input type="password" id="githubToken" placeholder="Wklej token z uprawnieniem do edycji contents">
+              <span class="field-note">Token trzymam tylko w tej sesji przeglądarki. Najbezpieczniej użyć tokena o minimalnym zakresie dostępu do tego repo.</span>
+            </label>
+          </div>
+        </div>
+
+        <div class="editor-wrap panel">
+          <fieldset id="editorFieldset">
+            <div class="form-grid" id="projectForm">
+              <label>
+                Tytuł realizacji
+                <input type="text" id="fieldTitle" placeholder="Np. Kampania Meta Ads dla marki X">
+              </label>
+
+              <label>
+                ID projektu
+                <input type="text" id="fieldId" placeholder="Generowane automatycznie">
+                <span class="field-note">Zmieniaj tylko, jeśli naprawdę chcesz.</span>
+              </label>
+
+              <label>
+                Klient
+                <input type="text" id="fieldClient" placeholder="Np. AutoNaKorfu.pl">
+              </label>
+
+              <label>
+                Kategoria
+                <input type="text" id="fieldCategory" placeholder="Np. Social Media">
+              </label>
+
+              <label class="full">
+                Opis
+                <textarea id="fieldDesc" placeholder="Krótki opis projektu, efektów i zakresu prac."></textarea>
+              </label>
+
+              <label>
+                Status
+                <select id="fieldStatus">
+                  <option value="">Standardowy</option>
+                  <option value="featured">Wyróżniony</option>
+                </select>
+              </label>
+
+              <label>
+                Link do projektu
+                <input type="url" id="fieldUrl" placeholder="https://...">
+              </label>
+
+              <label>
+                Link do wideo / YouTube / mp4
+                <input type="text" id="fieldYoutubeUrl" placeholder="https://youtube.com/... lub link do mp4">
+              </label>
+
+              <label>
+                Tagi
+                <input type="text" id="fieldTags" placeholder="Meta Ads, Social Media, Branding">
+                <span class="field-note">Oddzielaj przecinkami.</span>
+              </label>
+
+              <label>
+                Stat 1 liczba
+                <input type="text" id="fieldStat1num" placeholder="Np. 320%">
+              </label>
+
+              <label>
+                Stat 1 etykieta
+                <input type="text" id="fieldStat1label" placeholder="Np. wzrost ROAS">
+              </label>
+
+              <label>
+                Stat 2 liczba
+                <input type="text" id="fieldStat2num" placeholder="Np. 4.8x">
+              </label>
+
+              <label>
+                Stat 2 etykieta
+                <input type="text" id="fieldStat2label" placeholder="Np. zwrot z kampanii">
+              </label>
+
+              <div class="full">
+                <div class="section-head">
+                  <div>
+                    <h3>Zdjęcia projektu</h3>
+                    <p style="margin-top:6px">Możesz dodawać kolejne zdjęcia, podmieniać stare i ustawiać kolejność karuzeli.</p>
+                  </div>
+                  <button class="btn-secondary" id="addImageBtn" type="button">Dodaj zdjęcie</button>
+                </div>
+                <div class="image-list" id="imageList"></div>
+              </div>
+            </div>
+          </fieldset>
+        </div>
+      </div>
+    </main>
+  </div>
+
+  <script>
+    (function() {
+      const STORAGE_KEY = 'portfolio_data';
+      const GITHUB_CONFIG_KEY = 'portfolio_github_config';
+      const GITHUB_TOKEN_KEY = 'portfolio_github_token';
+      const els = {
+        projectList: document.getElementById('projectList'),
+        projectCountChip: document.getElementById('projectCountChip'),
+        statusLine: document.getElementById('statusLine'),
+        metaProjects: document.getElementById('metaProjects'),
+        metaImages: document.getElementById('metaImages'),
+        metaSize: document.getElementById('metaSize'),
+        editorFieldset: document.getElementById('editorFieldset'),
+        imageList: document.getElementById('imageList'),
+        importInput: document.getElementById('importInput'),
+        fieldTitle: document.getElementById('fieldTitle'),
+        fieldId: document.getElementById('fieldId'),
+        fieldClient: document.getElementById('fieldClient'),
+        fieldCategory: document.getElementById('fieldCategory'),
+        fieldDesc: document.getElementById('fieldDesc'),
+        fieldStatus: document.getElementById('fieldStatus'),
+        fieldUrl: document.getElementById('fieldUrl'),
+        fieldYoutubeUrl: document.getElementById('fieldYoutubeUrl'),
+        fieldTags: document.getElementById('fieldTags'),
+        fieldStat1num: document.getElementById('fieldStat1num'),
+        fieldStat1label: document.getElementById('fieldStat1label'),
+        fieldStat2num: document.getElementById('fieldStat2num'),
+        fieldStat2label: document.getElementById('fieldStat2label'),
+        githubOwner: document.getElementById('githubOwner'),
+        githubRepo: document.getElementById('githubRepo'),
+        githubBranch: document.getElementById('githubBranch'),
+        githubPath: document.getElementById('githubPath'),
+        githubToken: document.getElementById('githubToken')
+      };
+
+      let state = createEmptyState();
+      let selectedProjectId = null;
+      let saveTimer = null;
+      let githubConfig = createDefaultGithubConfig();
+
+      function createEmptyState() {
+        return {
+          projects: [],
+          services: [],
+          profile: {},
+          settings: {}
+        };
+      }
+
+      function createDefaultGithubConfig() {
+        return {
+          owner: 'szymonqqqq123',
+          repo: 'Portfolio',
+          branch: 'main',
+          path: 'portfolio-data.json',
+          token: ''
+        };
+      }
+
+      function slugify(value) {
+        return String(value || '')
+          .toLowerCase()
+          .normalize('NFD')
+          .replace(/[\u0300-\u036f]/g, '')
+          .replace(/[^a-z0-9]+/g, '-')
+          .replace(/^-+|-+$/g, '')
+          .slice(0, 40) || 'realizacja';
+      }
+
+      function generateId(seed) {
+        return slugify(seed) + '-' + Math.random().toString(36).slice(2, 7);
+      }
+
+      function makeUniqueProjectId(rawId, fallbackSeed, currentId) {
+        let desired = String(rawId || '').trim();
+        if (!desired) {
+          desired = currentId || generateId(fallbackSeed || 'realizacja');
+        }
+
+        let candidate = desired;
+        let counter = 2;
+        while (state.projects.some(function(project) {
+          return project.id === candidate && project.id !== currentId;
+        })) {
+          candidate = desired + '-' + counter;
+          counter += 1;
+        }
+        return candidate;
+      }
+
+      function parseTags(value) {
+        return String(value || '')
+          .split(',')
+          .map(function(tag) { return tag.trim(); })
+          .filter(Boolean);
+      }
+
+      function escapeHtml(value) {
+        return String(value == null ? '' : value)
+          .replace(/&/g, '&amp;')
+          .replace(/</g, '&lt;')
+          .replace(/>/g, '&gt;')
+          .replace(/"/g, '&quot;')
+          .replace(/'/g, '&#39;');
+      }
+
+      function normalizeProject(project, index) {
+        const src = project && typeof project === 'object' ? project : {};
+        const title = src.title || 'Nowa realizacja';
+        return {
+          id: String(src.id || generateId(title + '-' + index)),
+          title: String(title),
+          client: String(src.client || ''),
+          desc: String(src.desc || ''),
+          category: String(src.category || ''),
+          tags: Array.isArray(src.tags) ? src.tags.filter(Boolean).map(String) : parseTags(src.tags),
+          stat1num: String(src.stat1num || ''),
+          stat1label: String(src.stat1label || ''),
+          stat2num: String(src.stat2num || ''),
+          stat2label: String(src.stat2label || ''),
+          status: src.status === 'featured' ? 'featured' : '',
+          url: String(src.url || ''),
+          youtubeUrl: String(src.youtubeUrl || ''),
+          images: Array.isArray(src.images) ? src.images.filter(Boolean).map(String) : [],
+          updatedAt: Number(src.updatedAt) || Date.now()
+        };
+      }
+
+      function ensureStateShape(raw) {
+        const src = raw && typeof raw === 'object' ? raw : {};
+        return {
+          projects: Array.isArray(src.projects) ? src.projects.map(normalizeProject) : [],
+          services: Array.isArray(src.services) ? src.services.slice() : [],
+          profile: src.profile && typeof src.profile === 'object' ? Object.assign({}, src.profile) : {},
+          settings: src.settings && typeof src.settings === 'object' ? Object.assign({}, src.settings) : {}
+        };
+      }
+
+      function loadGithubConfig() {
+        let config = createDefaultGithubConfig();
+
+        try {
+          const saved = localStorage.getItem(GITHUB_CONFIG_KEY);
+          if (saved) {
+            config = Object.assign(config, JSON.parse(saved));
+          }
+        } catch (error) {
+          console.warn('github config read failed:', error);
+        }
+
+        try {
+          config.token = sessionStorage.getItem(GITHUB_TOKEN_KEY) || '';
+        } catch (error) {
+          console.warn('github token read failed:', error);
+        }
+
+        return config;
+      }
+
+      function saveGithubConfig() {
+        githubConfig = {
+          owner: els.githubOwner.value.trim(),
+          repo: els.githubRepo.value.trim(),
+          branch: els.githubBranch.value.trim() || 'main',
+          path: els.githubPath.value.trim() || 'portfolio-data.json',
+          token: els.githubToken.value.trim()
+        };
+
+        try {
+          localStorage.setItem(GITHUB_CONFIG_KEY, JSON.stringify({
+            owner: githubConfig.owner,
+            repo: githubConfig.repo,
+            branch: githubConfig.branch,
+            path: githubConfig.path
+          }));
+        } catch (error) {
+          console.warn('github config write failed:', error);
+        }
+
+        try {
+          if (githubConfig.token) {
+            sessionStorage.setItem(GITHUB_TOKEN_KEY, githubConfig.token);
+          } else {
+            sessionStorage.removeItem(GITHUB_TOKEN_KEY);
+          }
+        } catch (error) {
+          console.warn('github token write failed:', error);
+        }
+
+        return githubConfig;
+      }
+
+      function fillGithubConfig() {
+        els.githubOwner.value = githubConfig.owner || '';
+        els.githubRepo.value = githubConfig.repo || '';
+        els.githubBranch.value = githubConfig.branch || 'main';
+        els.githubPath.value = githubConfig.path || 'portfolio-data.json';
+        els.githubToken.value = githubConfig.token || '';
+      }
+
+      function encodeGithubPath(path) {
+        return String(path || '')
+          .split('/')
+          .filter(Boolean)
+          .map(encodeURIComponent)
+          .join('/');
+      }
+
+      function getGithubApiUrl(config) {
+        return 'https://api.github.com/repos/' +
+          encodeURIComponent(config.owner) + '/' +
+          encodeURIComponent(config.repo) + '/contents/' +
+          encodeGithubPath(config.path);
+      }
+
+      function getGithubHeaders(token) {
+        return {
+          'Accept': 'application/vnd.github+json',
+          'Authorization': 'Bearer ' + token,
+          'X-GitHub-Api-Version': '2022-11-28',
+          'Content-Type': 'application/json'
+        };
+      }
+
+      function utf8ToBase64(value) {
+        const bytes = new TextEncoder().encode(value);
+        let binary = '';
+        const chunkSize = 0x8000;
+        for (let i = 0; i < bytes.length; i += chunkSize) {
+          binary += String.fromCharCode.apply(null, bytes.subarray(i, i + chunkSize));
+        }
+        return btoa(binary);
+      }
+
+      function base64ToUtf8(value) {
+        const binary = atob(String(value || '').replace(/\n/g, ''));
+        const bytes = Uint8Array.from(binary, function(char) {
+          return char.charCodeAt(0);
+        });
+        return new TextDecoder().decode(bytes);
+      }
+
+      function loadState() {
+        try {
+          const saved = localStorage.getItem(STORAGE_KEY);
+          return ensureStateShape(saved ? JSON.parse(saved) : createEmptyState());
+        } catch (error) {
+          setStatus('Nie udało się odczytać danych z localStorage.', 'danger');
+          return createEmptyState();
+        }
+      }
+
+      function saveState(showStatus) {
+        const safeState = ensureStateShape(state);
+        try {
+          localStorage.setItem(STORAGE_KEY, JSON.stringify(safeState));
+          state = safeState;
+          updateMeta();
+          if (showStatus !== false) {
+            setStatus('Zmiany zapisane lokalnie.', 'ok');
+          }
+          return true;
+        } catch (error) {
+          setStatus('Zapis nie powiódł się. Prawdopodobnie dane są za ciężkie.', 'danger');
+          alert('Nie udało się zapisać danych. Jeśli wklejasz obrazy jako bardzo duże base64, localStorage może być za mały. Lepiej używać zwykłych linków do obrazów.');
+          return false;
+        }
+      }
+
+      function scheduleSave() {
+        clearTimeout(saveTimer);
+        saveTimer = setTimeout(function() {
+          saveState(true);
+        }, 350);
+      }
+
+      function setStatus(message, tone) {
+        els.statusLine.className = 'status-line' + (tone ? ' ' + tone : '');
+        els.statusLine.innerHTML = '<span class="status-dot"></span><span>' + escapeHtml(message) + '</span>';
+      }
+
+      function getSelectedProject() {
+        return state.projects.find(function(project) {
+          return project.id === selectedProjectId;
+        }) || null;
+      }
+
+      function syncCurrentProjectFromFields(shouldSave) {
+        const project = getSelectedProject();
+        if (!project) return;
+
+        project.title = els.fieldTitle.value.trim() || 'Nowa realizacja';
+        project.id = makeUniqueProjectId(els.fieldId.value, project.title, project.id);
+        project.client = els.fieldClient.value.trim();
+        project.category = els.fieldCategory.value.trim();
+        project.desc = els.fieldDesc.value.trim();
+        project.status = els.fieldStatus.value;
+        project.url = els.fieldUrl.value.trim();
+        project.youtubeUrl = els.fieldYoutubeUrl.value.trim();
+        project.tags = parseTags(els.fieldTags.value);
+        project.stat1num = els.fieldStat1num.value.trim();
+        project.stat1label = els.fieldStat1label.value.trim();
+        project.stat2num = els.fieldStat2num.value.trim();
+        project.stat2label = els.fieldStat2label.value.trim();
+        project.updatedAt = Date.now();
+
+        selectedProjectId = project.id;
+        els.fieldId.value = project.id;
+        renderProjectList();
+        updateMeta();
+
+        if (shouldSave !== false) {
+          scheduleSave();
+        }
+      }
+
+      function fillForm() {
+        const project = getSelectedProject();
+        const disabled = !project;
+        els.editorFieldset.disabled = disabled;
+
+        if (!project) {
+          [
+            els.fieldTitle,
+            els.fieldId,
+            els.fieldClient,
+            els.fieldCategory,
+            els.fieldDesc,
+            els.fieldUrl,
+            els.fieldYoutubeUrl,
+            els.fieldTags,
+            els.fieldStat1num,
+            els.fieldStat1label,
+            els.fieldStat2num,
+            els.fieldStat2label
+          ].forEach(function(input) {
+            input.value = '';
+          });
+          els.fieldStatus.value = '';
+          renderImageList();
+          return;
+        }
+
+        els.fieldTitle.value = project.title || '';
+        els.fieldId.value = project.id || '';
+        els.fieldClient.value = project.client || '';
+        els.fieldCategory.value = project.category || '';
+        els.fieldDesc.value = project.desc || '';
+        els.fieldStatus.value = project.status || '';
+        els.fieldUrl.value = project.url || '';
+        els.fieldYoutubeUrl.value = project.youtubeUrl || '';
+        els.fieldTags.value = (project.tags || []).join(', ');
+        els.fieldStat1num.value = project.stat1num || '';
+        els.fieldStat1label.value = project.stat1label || '';
+        els.fieldStat2num.value = project.stat2num || '';
+        els.fieldStat2label.value = project.stat2label || '';
+        renderImageList();
+      }
+
+      function truncateMiddle(value, max) {
+        const text = String(value || '');
+        if (text.length <= max) return text;
+        const edge = Math.floor((max - 3) / 2);
+        return text.slice(0, edge) + '...' + text.slice(text.length - edge);
+      }
+
+      function isProbablyImageSource(value) {
+        return /^data:image\//.test(value) || /^https?:\/\//.test(value) || value.startsWith('/');
+      }
+
+      function formatImageLabel(value) {
+        if (!value) return 'Pusty wpis';
+        if (/^data:image\//.test(value)) {
+          return 'Osadzony obraz (data URI, ' + Math.round(value.length / 1024) + ' KB)';
+        }
+        return truncateMiddle(value, 90);
+      }
+
+      function renderImageList() {
+        const project = getSelectedProject();
+        if (!project) {
+          els.imageList.innerHTML = '<div class="empty">Wybierz albo dodaj projekt, żeby zarządzać zdjęciami.</div>';
+          return;
+        }
+
+        const images = Array.isArray(project.images) ? project.images : [];
+        if (!images.length) {
+          els.imageList.innerHTML = '<div class="empty">Ten projekt nie ma jeszcze żadnych zdjęć.</div>';
+          return;
+        }
+
+        els.imageList.innerHTML = images.map(function(image, index) {
+          const preview = isProbablyImageSource(image)
+            ? '<img src="' + escapeHtml(image) + '" alt="Podgląd zdjęcia ' + (index + 1) + '">'
+            : '<span>Brak podglądu</span>';
+
+          return (
+            '<div class="image-item">' +
+              '<div class="thumb">' + preview + '</div>' +
+              '<div class="image-copy">' +
+                '<div class="image-title">Zdjęcie ' + (index + 1) + '</div>' +
+                '<p>' + escapeHtml(formatImageLabel(image)) + '</p>' +
+                '<div class="image-actions">' +
+                  '<button class="btn-secondary" type="button" data-action="edit-image" data-index="' + index + '">Edytuj</button>' +
+                  '<button class="btn-ghost" type="button" data-action="move-image-up" data-index="' + index + '"' + (index === 0 ? ' disabled' : '') + '>↑</button>' +
+                  '<button class="btn-ghost" type="button" data-action="move-image-down" data-index="' + index + '"' + (index === images.length - 1 ? ' disabled' : '') + '>↓</button>' +
+                  '<button class="btn-danger" type="button" data-action="delete-image" data-index="' + index + '">Usuń</button>' +
+                '</div>' +
+              '</div>' +
+            '</div>'
+          );
+        }).join('');
+      }
+
+      function renderProjectList() {
+        const projects = state.projects || [];
+        els.projectCountChip.textContent = projects.length + (projects.length === 1 ? ' pozycja' : ' pozycji');
+
+        if (!projects.length) {
+          els.projectList.innerHTML = '<div class="empty">Nie ma jeszcze żadnych projektów. Kliknij "Nowa realizacja".</div>';
+          return;
+        }
+
+        els.projectList.innerHTML = projects.map(function(project) {
+          const activeClass = project.id === selectedProjectId ? ' active' : '';
+          const images = Array.isArray(project.images) ? project.images.length : 0;
+          const label = project.title || 'Bez tytułu';
+          const category = project.category || 'Bez kategorii';
+          const status = project.status === 'featured' ? 'Wyróżniony' : 'Standard';
+
+          return (
+            '<button class="project-item' + activeClass + '" type="button" data-action="select-project" data-id="' + escapeHtml(project.id) + '">' +
+              '<strong>' + escapeHtml(label) + '</strong>' +
+              '<div class="project-meta">' +
+                '<span>' + escapeHtml(category) + '</span>' +
+                '<span>' + images + ' zdjęć</span>' +
+                '<span>' + escapeHtml(status) + '</span>' +
+              '</div>' +
+            '</button>'
+          );
+        }).join('');
+      }
+
+      function updateMeta() {
+        const projects = state.projects || [];
+        const imageCount = projects.reduce(function(sum, project) {
+          return sum + ((project.images || []).length);
+        }, 0);
+        const size = Math.round(JSON.stringify(state).length / 1024);
+        els.metaProjects.textContent = String(projects.length);
+        els.metaImages.textContent = String(imageCount);
+        els.metaSize.textContent = size + ' KB';
+      }
+
+      function renderAll() {
+        if (!selectedProjectId && state.projects.length) {
+          selectedProjectId = state.projects[0].id;
+        }
+        if (selectedProjectId && !getSelectedProject() && state.projects.length) {
+          selectedProjectId = state.projects[0].id;
+        }
+        if (!state.projects.length) {
+          selectedProjectId = null;
+        }
+
+        renderProjectList();
+        fillForm();
+        updateMeta();
+      }
+
+      function createProject() {
+        syncCurrentProjectFromFields(false);
+        const project = normalizeProject({
+          title: 'Nowa realizacja',
+          category: 'Nowa kategoria',
+          images: [],
+          tags: []
+        }, state.projects.length + 1);
+        state.projects.unshift(project);
+        selectedProjectId = project.id;
+        renderAll();
+        scheduleSave();
+      }
+
+      function duplicateProject() {
+        const current = getSelectedProject();
+        if (!current) return;
+        syncCurrentProjectFromFields(false);
+        const copy = normalizeProject(Object.assign({}, current, {
+          id: generateId(current.title || 'kopia'),
+          title: (current.title || 'Realizacja') + ' (kopia)',
+          images: (current.images || []).slice(),
+          tags: (current.tags || []).slice(),
+          updatedAt: Date.now()
+        }), state.projects.length + 1);
+        state.projects.unshift(copy);
+        selectedProjectId = copy.id;
+        renderAll();
+        scheduleSave();
+      }
+
+      function deleteProject() {
+        const current = getSelectedProject();
+        if (!current) return;
+        const confirmed = window.confirm('Usunąć projekt "' + current.title + '"?');
+        if (!confirmed) return;
+
+        const index = state.projects.findIndex(function(project) {
+          return project.id === current.id;
+        });
+
+        state.projects.splice(index, 1);
+        selectedProjectId = state.projects[index] ? state.projects[index].id : (state.projects[index - 1] ? state.projects[index - 1].id : null);
+        renderAll();
+        scheduleSave();
+      }
+
+      function moveProject(direction) {
+        const index = state.projects.findIndex(function(project) {
+          return project.id === selectedProjectId;
+        });
+        if (index < 0) return;
+
+        const nextIndex = index + direction;
+        if (nextIndex < 0 || nextIndex >= state.projects.length) return;
+
+        const tmp = state.projects[index];
+        state.projects[index] = state.projects[nextIndex];
+        state.projects[nextIndex] = tmp;
+        renderProjectList();
+        scheduleSave();
+      }
+
+      function addImage() {
+        const current = getSelectedProject();
+        if (!current) return;
+        const input = window.prompt('Wklej URL zdjęcia albo data URI:', '');
+        if (!input) return;
+        current.images.push(input.trim());
+        current.updatedAt = Date.now();
+        renderImageList();
+        renderProjectList();
+        scheduleSave();
+      }
+
+      function editImage(index) {
+        const current = getSelectedProject();
+        if (!current || !current.images[index]) return;
+        const currentValue = /^data:image\//.test(current.images[index]) ? '' : current.images[index];
+        const input = window.prompt('Wklej nowy URL zdjęcia. Jeśli chcesz zamienić osadzony obraz, wklej tutaj nowy link.', currentValue);
+        if (!input) return;
+        current.images[index] = input.trim();
+        current.updatedAt = Date.now();
+        renderImageList();
+        scheduleSave();
+      }
+
+      function deleteImage(index) {
+        const current = getSelectedProject();
+        if (!current) return;
+        current.images.splice(index, 1);
+        current.updatedAt = Date.now();
+        renderImageList();
+        renderProjectList();
+        scheduleSave();
+      }
+
+      function moveImage(index, direction) {
+        const current = getSelectedProject();
+        if (!current) return;
+        const nextIndex = index + direction;
+        if (nextIndex < 0 || nextIndex >= current.images.length) return;
+        const tmp = current.images[index];
+        current.images[index] = current.images[nextIndex];
+        current.images[nextIndex] = tmp;
+        current.updatedAt = Date.now();
+        renderImageList();
+        scheduleSave();
+      }
+
+      async function seedFromIndex() {
+        setStatus('Ładuję dane z index.html...', 'warn');
+        const frame = document.createElement('iframe');
+        frame.style.display = 'none';
+        frame.src = 'index.html?seed=' + Date.now();
+        document.body.appendChild(frame);
+
+        try {
+          await new Promise(function(resolve, reject) {
+            const timeout = setTimeout(function() {
+              reject(new Error('timeout'));
+            }, 12000);
+
+            frame.onload = function() {
+              clearTimeout(timeout);
+              setTimeout(resolve, 900);
+            };
+
+            frame.onerror = function() {
+              clearTimeout(timeout);
+              reject(new Error('load-error'));
+            };
+          });
+
+          state = loadState();
+          renderAll();
+          saveState(false);
+          setStatus('Dane zostały wczytane z index.html.', 'ok');
+        } catch (error) {
+          setStatus('Nie udało się wczytać danych ze strony.', 'danger');
+          alert('Nie udało się pobrać danych z index.html. Upewnij się, że admin.html i index.html są w tym samym folderze i tej samej domenie.');
+        } finally {
+          frame.remove();
+        }
+      }
+
+      async function fetchGithubContent(config) {
+        const url = getGithubApiUrl(config) + '?ref=' + encodeURIComponent(config.branch);
+        const response = await fetch(url, {
+          headers: getGithubHeaders(config.token)
+        });
+
+        if (response.status === 404) {
+          return null;
+        }
+
+        if (!response.ok) {
+          const body = await response.text();
+          throw new Error('GitHub API error ' + response.status + ': ' + body);
+        }
+
+        return response.json();
+      }
+
+      async function pullFromGithub() {
+        const config = saveGithubConfig();
+        if (!config.owner || !config.repo || !config.branch || !config.path || !config.token) {
+          setStatus('Uzupełnij ustawienia GitHuba i token.', 'warn');
+          alert('Żeby pobrać dane z repo, uzupełnij pola GitHub login, repo, branch, ścieżka pliku i token.');
+          return;
+        }
+
+        setStatus('Pobieram aktualny plik z GitHuba...', 'warn');
+
+        try {
+          const remote = await fetchGithubContent(config);
+          if (!remote || !remote.content) {
+            setStatus('Plik jeszcze nie istnieje w repo.', 'warn');
+            alert('Plik `portfolio-data.json` nie istnieje jeszcze w repo. Najpierw użyj publikacji.');
+            return;
+          }
+
+          state = ensureStateShape(JSON.parse(base64ToUtf8(remote.content)));
+          selectedProjectId = state.projects[0] ? state.projects[0].id : null;
+          renderAll();
+          saveState(false);
+          setStatus('Pobrano najnowsze dane z GitHuba.', 'ok');
+        } catch (error) {
+          console.error(error);
+          setStatus('Nie udało się pobrać danych z GitHuba.', 'danger');
+          alert('GitHub zwrócił błąd podczas pobierania danych. Sprawdź token i ustawienia repo.');
+        }
+      }
+
+      async function publishToGithub() {
+        syncCurrentProjectFromFields(false);
+        const config = saveGithubConfig();
+
+        if (!config.owner || !config.repo || !config.branch || !config.path || !config.token) {
+          setStatus('Uzupełnij ustawienia GitHuba i token.', 'warn');
+          alert('Żeby publikować dla klientów, uzupełnij pola GitHub login, repo, branch, ścieżka pliku i token.');
+          return;
+        }
+
+        if (!saveState(false)) {
+          return;
+        }
+
+        setStatus('Publikuję zmiany do GitHuba...', 'warn');
+
+        try {
+          const currentFile = await fetchGithubContent(config);
+          const body = {
+            message: 'Update portfolio data via admin panel',
+            content: utf8ToBase64(JSON.stringify(ensureStateShape(state), null, 2)),
+            branch: config.branch
+          };
+
+          if (currentFile && currentFile.sha) {
+            body.sha = currentFile.sha;
+          }
+
+          const response = await fetch(getGithubApiUrl(config), {
+            method: 'PUT',
+            headers: getGithubHeaders(config.token),
+            body: JSON.stringify(body)
+          });
+
+          if (!response.ok) {
+            const raw = await response.text();
+            throw new Error('GitHub API error ' + response.status + ': ' + raw);
+          }
+
+          setStatus('Opublikowano. GitHub Pages powinno odświeżyć stronę za chwilę.', 'ok');
+        } catch (error) {
+          console.error(error);
+          setStatus('Publikacja do GitHuba nie udała się.', 'danger');
+          alert('GitHub odrzucił publikację. Najczęściej chodzi o zły token albo złą nazwę repo/branch.');
+        }
+      }
+
+      function exportJson() {
+        syncCurrentProjectFromFields(false);
+        const json = JSON.stringify(ensureStateShape(state), null, 2);
+        const blob = new Blob([json], { type: 'application/json' });
+        const link = document.createElement('a');
+        link.href = URL.createObjectURL(blob);
+        link.download = 'portfolio-data-' + new Date().toISOString().slice(0, 10) + '.json';
+        document.body.appendChild(link);
+        link.click();
+        link.remove();
+        setTimeout(function() {
+          URL.revokeObjectURL(link.href);
+        }, 500);
+        setStatus('Wyeksportowano backup JSON.', 'ok');
+      }
+
+      function importJsonFile(file) {
+        if (!file) return;
+        const reader = new FileReader();
+        reader.onload = function(event) {
+          try {
+            const parsed = JSON.parse(String(event.target.result || '{}'));
+            state = ensureStateShape(parsed);
+            selectedProjectId = state.projects[0] ? state.projects[0].id : null;
+            renderAll();
+            saveState(true);
+          } catch (error) {
+            setStatus('Plik JSON jest niepoprawny.', 'danger');
+            alert('Nie udało się odczytać tego pliku JSON.');
+          } finally {
+            els.importInput.value = '';
+          }
+        };
+        reader.readAsText(file);
+      }
+
+      document.getElementById('addProjectBtn').addEventListener('click', createProject);
+      document.getElementById('duplicateProjectBtn').addEventListener('click', duplicateProject);
+      document.getElementById('deleteProjectBtn').addEventListener('click', deleteProject);
+      document.getElementById('moveUpBtn').addEventListener('click', function() { moveProject(-1); });
+      document.getElementById('moveDownBtn').addEventListener('click', function() { moveProject(1); });
+      document.getElementById('saveBtn').addEventListener('click', function() {
+        syncCurrentProjectFromFields(false);
+        saveState(true);
+      });
+      document.getElementById('publishBtn').addEventListener('click', publishToGithub);
+      document.getElementById('pullGithubBtn').addEventListener('click', pullFromGithub);
+      document.getElementById('seedBtn').addEventListener('click', seedFromIndex);
+      document.getElementById('exportBtn').addEventListener('click', exportJson);
+      document.getElementById('addImageBtn').addEventListener('click', addImage);
+
+      [
+        els.fieldTitle,
+        els.fieldId,
+        els.fieldClient,
+        els.fieldCategory,
+        els.fieldDesc,
+        els.fieldStatus,
+        els.fieldUrl,
+        els.fieldYoutubeUrl,
+        els.fieldTags,
+        els.fieldStat1num,
+        els.fieldStat1label,
+        els.fieldStat2num,
+        els.fieldStat2label
+      ].forEach(function(input) {
+        input.addEventListener('input', function() {
+          syncCurrentProjectFromFields(true);
+        });
+        input.addEventListener('change', function() {
+          syncCurrentProjectFromFields(true);
+        });
+      });
+
+      els.projectList.addEventListener('click', function(event) {
+        const button = event.target.closest('[data-action="select-project"]');
+        if (!button) return;
+        syncCurrentProjectFromFields(false);
+        selectedProjectId = button.getAttribute('data-id');
+        renderAll();
+      });
+
+      els.imageList.addEventListener('click', function(event) {
+        const button = event.target.closest('[data-action]');
+        if (!button) return;
+        const index = Number(button.getAttribute('data-index'));
+        const action = button.getAttribute('data-action');
+
+        if (action === 'edit-image') editImage(index);
+        if (action === 'delete-image') deleteImage(index);
+        if (action === 'move-image-up') moveImage(index, -1);
+        if (action === 'move-image-down') moveImage(index, 1);
+      });
+
+      els.importInput.addEventListener('change', function(event) {
+        importJsonFile(event.target.files && event.target.files[0]);
+      });
+
+      [
+        els.githubOwner,
+        els.githubRepo,
+        els.githubBranch,
+        els.githubPath,
+        els.githubToken
+      ].forEach(function(input) {
+        input.addEventListener('input', saveGithubConfig);
+        input.addEventListener('change', saveGithubConfig);
+      });
+
+      githubConfig = loadGithubConfig();
+      fillGithubConfig();
+      state = loadState();
+      if (!state.projects.length) {
+        setStatus('Brak danych w localStorage. Kliknij "Wczytaj dane z index.html".', 'warn');
+      } else {
+        setStatus('Dane portfolio wczytane.', 'ok');
+      }
+      renderAll();
+    })();
+  </script>
+</body>
+</html>
