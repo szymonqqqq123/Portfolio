@@ -678,6 +678,7 @@
       const STORAGE_KEY = 'portfolio_data';
       const GITHUB_CONFIG_KEY = 'portfolio_github_config';
       const GITHUB_TOKEN_KEY = 'portfolio_github_token';
+      const PUBLIC_DATA_URL = 'portfolio-data.json';
       const els = {
         projectList: document.getElementById('projectList'),
         projectCountChip: document.getElementById('projectCountChip'),
@@ -723,6 +724,16 @@
           services: [],
           profile: {},
           settings: {}
+        };
+      }
+
+      function cloneState(state) {
+        const src = state || {};
+        return {
+          projects: Array.isArray(src.projects) ? src.projects.slice() : [],
+          services: Array.isArray(src.services) ? src.services.slice() : [],
+          profile: Object.assign({}, src.profile || {}),
+          settings: Object.assign({}, src.settings || {})
         };
       }
 
@@ -816,6 +827,111 @@
           profile: src.profile && typeof src.profile === 'object' ? Object.assign({}, src.profile) : {},
           settings: src.settings && typeof src.settings === 'object' ? Object.assign({}, src.settings) : {}
         };
+      }
+
+      function mergePortfolioLists(baseList, incomingList) {
+        const merged = Array.isArray(baseList) ? baseList.slice() : [];
+        const indexById = {};
+
+        merged.forEach(function(item, index) {
+          if (item && item.id != null) {
+            indexById[String(item.id)] = index;
+          }
+        });
+
+        (Array.isArray(incomingList) ? incomingList : []).forEach(function(item) {
+          if (!item) return;
+          if (item.id == null) {
+            merged.push(item);
+            return;
+          }
+
+          const key = String(item.id);
+          if (Object.prototype.hasOwnProperty.call(indexById, key)) {
+            merged[indexById[key]] = Object.assign({}, merged[indexById[key]], item);
+            return;
+          }
+
+          indexById[key] = merged.length;
+          merged.push(item);
+        });
+
+        return merged;
+      }
+
+      function mergePortfolioState(baseState, incomingState) {
+        const base = cloneState(baseState);
+        const incoming = incomingState || {};
+
+        return ensureStateShape({
+          projects: mergePortfolioLists(base.projects, incoming.projects),
+          services: mergePortfolioLists(base.services, incoming.services),
+          profile: Object.assign({}, base.profile, incoming.profile || {}),
+          settings: Object.assign({}, base.settings, incoming.settings || {})
+        });
+      }
+
+      async function fetchPublicPortfolioState() {
+        try {
+          const response = await fetch(PUBLIC_DATA_URL, { cache: 'no-store' });
+          if (!response.ok) {
+            return null;
+          }
+          return ensureStateShape(await response.json());
+        } catch (error) {
+          console.warn('public portfolio-data fetch failed:', error);
+          return null;
+        }
+      }
+
+      async function getFallbackStateFromIndex() {
+        const frame = document.createElement('iframe');
+        frame.style.display = 'none';
+        frame.src = 'index.html?seed=' + Date.now();
+        document.body.appendChild(frame);
+
+        try {
+          await new Promise(function(resolve, reject) {
+            const timeout = setTimeout(function() {
+              reject(new Error('timeout'));
+            }, 12000);
+
+            frame.onload = function() {
+              clearTimeout(timeout);
+              setTimeout(resolve, 1200);
+            };
+
+            frame.onerror = function() {
+              clearTimeout(timeout);
+              reject(new Error('load-error'));
+            };
+          });
+
+          return ensureStateShape(frame.contentWindow && frame.contentWindow.__portfolioFallbackState);
+        } catch (error) {
+          console.warn('index fallback load failed:', error);
+          return null;
+        } finally {
+          frame.remove();
+        }
+      }
+
+      async function loadVisiblePortfolioState() {
+        const localDraft = loadState();
+        const fallbackState = await getFallbackStateFromIndex();
+        const publishedState = await fetchPublicPortfolioState();
+
+        let merged = fallbackState ? mergePortfolioState(createEmptyState(), fallbackState) : createEmptyState();
+
+        if (publishedState) {
+          merged = mergePortfolioState(merged, publishedState);
+        }
+
+        if (localDraft && (localDraft.projects.length || Object.keys(localDraft.profile || {}).length || (localDraft.services || []).length)) {
+          merged = mergePortfolioState(merged, localDraft);
+        }
+
+        return ensureStateShape(merged);
       }
 
       function loadGithubConfig() {
@@ -1425,37 +1541,19 @@
 
       async function seedFromIndex() {
         setStatus('Ładuję dane z index.html...', 'warn');
-        const frame = document.createElement('iframe');
-        frame.style.display = 'none';
-        frame.src = 'index.html?seed=' + Date.now();
-        document.body.appendChild(frame);
-
         try {
-          await new Promise(function(resolve, reject) {
-            const timeout = setTimeout(function() {
-              reject(new Error('timeout'));
-            }, 12000);
+          const fallbackState = await getFallbackStateFromIndex();
+          if (!fallbackState) {
+            throw new Error('no-fallback-state');
+          }
 
-            frame.onload = function() {
-              clearTimeout(timeout);
-              setTimeout(resolve, 900);
-            };
-
-            frame.onerror = function() {
-              clearTimeout(timeout);
-              reject(new Error('load-error'));
-            };
-          });
-
-          state = loadState();
+          state = mergePortfolioState(fallbackState, loadState());
           renderAll();
           saveState(false);
           setStatus('Dane zostały wczytane z index.html.', 'ok');
         } catch (error) {
           setStatus('Nie udało się wczytać danych ze strony.', 'danger');
           alert('Nie udało się pobrać danych z index.html. Upewnij się, że admin.html i index.html są w tym samym folderze i tej samej domenie.');
-        } finally {
-          frame.remove();
         }
       }
 
@@ -1479,23 +1577,39 @@
 
       async function pullFromGithub() {
         const config = saveGithubConfig();
-        if (!config.owner || !config.repo || !config.branch || !config.path || !config.token) {
-          setStatus('Uzupełnij ustawienia GitHuba i token.', 'warn');
-          alert('Żeby pobrać dane z repo, uzupełnij pola GitHub login, repo, branch, ścieżka pliku i token.');
+        if (!config.owner || !config.repo || !config.branch || !config.path) {
+          setStatus('Uzupełnij ustawienia GitHuba.', 'warn');
+          alert('Żeby pobrać dane z repo, uzupełnij pola GitHub login, repo, branch i ścieżka pliku.');
           return;
         }
 
         setStatus('Pobieram aktualny plik z GitHuba...', 'warn');
 
         try {
-          const remote = await fetchGithubContent(config);
+          let remote = null;
+          if (config.token) {
+            remote = await fetchGithubContent(config);
+          }
+
+          if (!remote) {
+            const publicState = await fetchPublicPortfolioState();
+            if (publicState) {
+              state = mergePortfolioState(await getFallbackStateFromIndex(), publicState);
+              selectedProjectId = state.projects[0] ? state.projects[0].id : null;
+              renderAll();
+              saveState(false);
+              setStatus('Pobrano najnowsze dane z opublikowanego pliku.', 'ok');
+              return;
+            }
+          }
+
           if (!remote || !remote.content) {
             setStatus('Plik jeszcze nie istnieje w repo.', 'warn');
             alert('Plik `portfolio-data.json` nie istnieje jeszcze w repo. Najpierw użyj publikacji.');
             return;
           }
 
-          state = ensureStateShape(JSON.parse(base64ToUtf8(remote.content)));
+          state = mergePortfolioState(await getFallbackStateFromIndex(), ensureStateShape(JSON.parse(base64ToUtf8(remote.content))));
           selectedProjectId = state.projects[0] ? state.projects[0].id : null;
           renderAll();
           saveState(false);
@@ -1683,15 +1797,28 @@
         input.addEventListener('change', saveGithubConfig);
       });
 
-      githubConfig = loadGithubConfig();
-      fillGithubConfig();
-      state = loadState();
-      if (!state.projects.length) {
-        setStatus('Brak danych w localStorage. Kliknij "Wczytaj dane z index.html".', 'warn');
-      } else {
-        setStatus('Dane portfolio wczytane.', 'ok');
+      async function initAdmin() {
+        githubConfig = loadGithubConfig();
+        fillGithubConfig();
+        setStatus('Ładuję dane portfolio...', 'warn');
+
+        try {
+          state = await loadVisiblePortfolioState();
+          if (!state.projects.length) {
+            setStatus('Brak danych w panelu. Kliknij "Wczytaj dane z index.html".', 'warn');
+          } else {
+            setStatus('Dane portfolio wczytane.', 'ok');
+          }
+          renderAll();
+        } catch (error) {
+          console.error(error);
+          state = loadState();
+          renderAll();
+          setStatus('Wczytano lokalny szkic z panelu.', 'warn');
+        }
       }
-      renderAll();
+
+      initAdmin();
     })();
   </script>
 </body>
