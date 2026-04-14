@@ -679,6 +679,9 @@
       const GITHUB_CONFIG_KEY = 'portfolio_github_config';
       const GITHUB_TOKEN_KEY = 'portfolio_github_token';
       const PUBLIC_DATA_URL = 'portfolio-data.json';
+      const VIDEO_DISABLED_PROJECTS = {
+        'autonakorfu-001': true
+      };
       const els = {
         projectList: document.getElementById('projectList'),
         projectCountChip: document.getElementById('projectCountChip'),
@@ -798,8 +801,9 @@
       function normalizeProject(project, index) {
         const src = project && typeof project === 'object' ? project : {};
         const title = src.title || 'Nowa realizacja';
+        const projectId = String(src.id || generateId(title + '-' + index));
         return {
-          id: String(src.id || generateId(title + '-' + index)),
+          id: projectId,
           title: String(title),
           client: String(src.client || ''),
           desc: String(src.desc || ''),
@@ -813,7 +817,7 @@
           stat3label: String(src.stat3label || ''),
           status: src.status === 'featured' ? 'featured' : '',
           url: String(src.url || ''),
-          youtubeUrl: String(src.youtubeUrl || ''),
+          youtubeUrl: VIDEO_DISABLED_PROJECTS[projectId] ? '' : String(src.youtubeUrl || ''),
           images: Array.isArray(src.images) ? src.images.filter(Boolean).map(String) : [],
           updatedAt: Number(src.updatedAt) || Date.now()
         };
