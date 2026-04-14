@@ -642,6 +642,16 @@
                 <input type="text" id="fieldStat2label" placeholder="Np. zwrot z kampanii">
               </label>
 
+              <label>
+                Stat 3 liczba
+                <input type="text" id="fieldStat3num" placeholder="Np. 120k">
+              </label>
+
+              <label>
+                Stat 3 etykieta
+                <input type="text" id="fieldStat3label" placeholder="Np. wyświetleń miesięcznie">
+              </label>
+
               <div class="full">
                 <div class="section-head">
                   <div>
@@ -691,6 +701,8 @@
         fieldStat1label: document.getElementById('fieldStat1label'),
         fieldStat2num: document.getElementById('fieldStat2num'),
         fieldStat2label: document.getElementById('fieldStat2label'),
+        fieldStat3num: document.getElementById('fieldStat3num'),
+        fieldStat3label: document.getElementById('fieldStat3label'),
         githubOwner: document.getElementById('githubOwner'),
         githubRepo: document.getElementById('githubRepo'),
         githubBranch: document.getElementById('githubBranch'),
@@ -786,6 +798,8 @@
           stat1label: String(src.stat1label || ''),
           stat2num: String(src.stat2num || ''),
           stat2label: String(src.stat2label || ''),
+          stat3num: String(src.stat3num || ''),
+          stat3label: String(src.stat3label || ''),
           status: src.status === 'featured' ? 'featured' : '',
           url: String(src.url || ''),
           youtubeUrl: String(src.youtubeUrl || ''),
@@ -1070,6 +1084,8 @@
         project.stat1label = els.fieldStat1label.value.trim();
         project.stat2num = els.fieldStat2num.value.trim();
         project.stat2label = els.fieldStat2label.value.trim();
+        project.stat3num = els.fieldStat3num.value.trim();
+        project.stat3label = els.fieldStat3label.value.trim();
         project.updatedAt = Date.now();
 
         selectedProjectId = project.id;
@@ -1100,7 +1116,9 @@
             els.fieldStat1num,
             els.fieldStat1label,
             els.fieldStat2num,
-            els.fieldStat2label
+            els.fieldStat2label,
+            els.fieldStat3num,
+            els.fieldStat3label
           ].forEach(function(input) {
             input.value = '';
           });
@@ -1122,6 +1140,8 @@
         els.fieldStat1label.value = project.stat1label || '';
         els.fieldStat2num.value = project.stat2num || '';
         els.fieldStat2label.value = project.stat2label || '';
+        els.fieldStat3num.value = project.stat3num || '';
+        els.fieldStat3label.value = project.stat3label || '';
         renderImageList();
       }
 
@@ -1603,7 +1623,9 @@
         els.fieldStat1num,
         els.fieldStat1label,
         els.fieldStat2num,
-        els.fieldStat2label
+        els.fieldStat2label,
+        els.fieldStat3num,
+        els.fieldStat3label
       ].forEach(function(input) {
         input.addEventListener('input', function() {
           syncCurrentProjectFromFields(true);
