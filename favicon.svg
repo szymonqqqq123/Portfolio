@@ -1,0 +1,29 @@
+<svg width="512" height="512" viewBox="0 0 512 512" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="bg" x1="60" y1="52" x2="446" y2="462" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#101018"/>
+      <stop offset="1" stop-color="#1A1731"/>
+    </linearGradient>
+    <radialGradient id="glowA" cx="0" cy="0" r="1" gradientUnits="userSpaceOnUse" gradientTransform="translate(386 116) rotate(126.364) scale(180.16 170.243)">
+      <stop stop-color="#8E7BFF" stop-opacity="0.55"/>
+      <stop offset="1" stop-color="#8E7BFF" stop-opacity="0"/>
+    </radialGradient>
+    <radialGradient id="glowB" cx="0" cy="0" r="1" gradientUnits="userSpaceOnUse" gradientTransform="translate(146 402) rotate(18.6645) scale(178.953 129.321)">
+      <stop stop-color="#C084FC" stop-opacity="0.35"/>
+      <stop offset="1" stop-color="#C084FC" stop-opacity="0"/>
+    </radialGradient>
+    <linearGradient id="stroke" x1="92" y1="78" x2="430" y2="434" gradientUnits="userSpaceOnUse">
+      <stop stop-color="white" stop-opacity="0.14"/>
+      <stop offset="1" stop-color="white" stop-opacity="0.04"/>
+    </linearGradient>
+  </defs>
+
+  <rect x="36" y="36" width="440" height="440" rx="128" fill="url(#bg)"/>
+  <rect x="36.75" y="36.75" width="438.5" height="438.5" rx="127.25" stroke="url(#stroke)" stroke-width="1.5"/>
+  <circle cx="382" cy="128" r="118" fill="url(#glowA)"/>
+  <circle cx="148" cy="392" r="112" fill="url(#glowB)"/>
+
+  <path d="M316 140C286.5 117.333 246.833 106 197 106C160.333 106 131 114 109 130C87.6667 146 77 168 77 196C77 220.667 84.3333 239.667 99 253C113.667 266.333 139 277 175 285L232 297C249.333 300.333 262 305.667 270 313C278.667 320.333 283 330.333 283 343C283 357 277 368 265 376C253 384.667 236.667 389 216 389C193.333 389 174 384.667 158 376C142.667 367.333 129.667 354.667 119 338L72 372C86 396 106.667 414.667 134 428C162 440.667 192.333 447 225 447C264.333 447 296.667 438 322 420C348 401.333 361 376 361 344C361 320.667 353.667 301.667 339 287C324.333 272.333 301 261.667 269 255L211 244C189 239.333 173.667 233.667 165 227C157 220.333 153 211.333 153 200C153 187.333 158.333 177.333 169 170C180.333 162.667 195.667 159 215 159C249 159 279.333 170.333 306 193L316 140Z" fill="#F5F1FF"/>
+
+  <circle cx="365" cy="369" r="34" fill="#8B6DFA"/>
+</svg>
