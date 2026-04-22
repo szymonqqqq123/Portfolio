@@ -12,24 +12,24 @@
         "Grafika",
         "Instagram"
       ],
-      "stat1num": "",
-      "stat1label": "",
-      "stat2num": "",
-      "stat2label": "",
+      "stat1num": "+38%",
+      "stat1label": "zasięgu organicznego",
+      "stat2num": "126k",
+      "stat2label": "wyświetleń w 90 dni",
       "stat3num": "4.2x",
       "stat3label": "więcej zapytań z Instagrama",
       "status": "featured",
       "url": "https://autonakorfu.pl",
-      "youtubeUrl": "autonakorfu-video.mp4",
+      "youtubeUrl": "",
       "images": [
-        "uploads/autonakorfu-001-1776202880341-1.jpg",
-        "uploads/autonakorfu-001-1776202882075-2.jpg",
-        "uploads/autonakorfu-001-1776202883391-3.jpg",
-        "uploads/autonakorfu-001-1776202884732-4.jpg",
-        "uploads/autonakorfu-001-1776202886457-5.jpg",
-        "uploads/autonakorfu-001-1776202887783-6.jpg"
+        "uploads/autonakorfu-001-1776881794000-1.jpg",
+        "uploads/autonakorfu-001-1776881795812-2.jpg",
+        "uploads/autonakorfu-001-1776881797069-3.jpg",
+        "uploads/autonakorfu-001-1776881799337-4.jpg",
+        "uploads/autonakorfu-001-1776881800813-5.jpg",
+        "uploads/autonakorfu-001-1776881802349-6.jpg"
       ],
-      "updatedAt": 1776202825323
+      "updatedAt": 1776881412575
     },
     {
       "id": "smclegal-001",
@@ -44,22 +44,24 @@
         "Facebook",
         "Instagram"
       ],
-      "stat1num": "",
-      "stat1label": "",
-      "stat2num": "",
-      "stat2label": "",
+      "stat1num": "+54%",
+      "stat1label": "obserwujących na LinkedIn",
+      "stat2num": "71",
+      "stat2label": "leadów z contentu",
       "stat3num": "2.9x",
       "stat3label": "większe zaangażowanie",
       "status": "featured",
       "url": "https://smclegal.pl",
       "youtubeUrl": "",
       "images": [
-        "uploads/smclegal-001-1776202889138-1.jpg",
-        "uploads/smclegal-001-1776202890367-2.jpg",
-        "uploads/smclegal-001-1776202891645-3.jpg",
-        "uploads/smclegal-001-1776202892987-4.jpg"
+        "uploads/smclegal-001-1776881803702-1.jpg",
+        "uploads/smclegal-001-1776881804910-2.jpg",
+        "uploads/smclegal-001-1776881806549-3.jpg",
+        "uploads/smclegal-001-1776881807880-4.jpg",
+        "uploads/smclegal-001-1776881809016-5.png",
+        "uploads/smclegal-001-1776881810746-6.jpg"
       ],
-      "updatedAt": 1776116572830
+      "updatedAt": 1776881793966
     },
     {
       "id": "comodivo-001",
@@ -74,22 +76,22 @@
         "E-commerce",
         "Instagram"
       ],
-      "stat1num": "",
-      "stat1label": "",
-      "stat2num": "",
-      "stat2label": "",
+      "stat1num": "182k",
+      "stat1label": "zasięgu miesięcznie",
+      "stat2num": "+41%",
+      "stat2label": "więcej zapisów na wizyty",
       "stat3num": "3.6x",
       "stat3label": "wzrost interakcji",
       "status": "featured",
       "url": "https://comodivo.pl",
       "youtubeUrl": "",
       "images": [
-        "uploads/comodivo-001-1776202894366-1.jpg",
-        "uploads/comodivo-001-1776202895763-2.jpg",
-        "uploads/comodivo-001-1776202897177-3.jpg",
-        "uploads/comodivo-001-1776202898489-4.jpg"
+        "uploads/comodivo-001-1776881812362-1.jpg",
+        "uploads/comodivo-001-1776881814023-2.jpg",
+        "uploads/comodivo-001-1776881815559-3.jpg",
+        "uploads/comodivo-001-1776881817094-4.jpg"
       ],
-      "updatedAt": 1776202880289
+      "updatedAt": 1776520038142
     },
     {
       "id": "wallflow-001",
@@ -104,20 +106,20 @@
         "Instagram",
         "Facebook"
       ],
-      "stat1num": "",
-      "stat1label": "",
-      "stat2num": "",
-      "stat2label": "",
+      "stat1num": "+63%",
+      "stat1label": "zasięgu reelsów",
+      "stat2num": "94k",
+      "stat2label": "wyświetleń kampanii",
       "stat3num": "28",
       "stat3label": "leadów w 30 dni",
       "status": "",
       "url": "https://wallflow.pl",
       "youtubeUrl": "",
       "images": [
-        "uploads/wallflow-001-1776202899859-1.jpg",
-        "uploads/wallflow-001-1776202901132-2.jpg"
+        "uploads/wallflow-001-1776881818539-1.jpg",
+        "uploads/wallflow-001-1776881819901-2.jpg"
       ],
-      "updatedAt": 1776116572830
+      "updatedAt": 1776520038142
     },
     {
       "id": "lissy-001",
@@ -132,20 +134,20 @@
         "Instagram",
         "E-commerce"
       ],
-      "stat1num": "",
-      "stat1label": "",
-      "stat2num": "",
-      "stat2label": "",
+      "stat1num": "+47%",
+      "stat1label": "sprzedaży z social media",
+      "stat2num": "5.1x",
+      "stat2label": "ROAS kampanii",
       "stat3num": "214k",
       "stat3label": "wyświetleń kolekcji",
       "status": "featured",
       "url": "https://lissy.pl",
       "youtubeUrl": "",
       "images": [
-        "uploads/lissy-001-1776202902656-1.jpg",
-        "uploads/lissy-001-1776202904074-2.jpg"
+        "uploads/lissy-001-1776881821235-1.jpg",
+        "uploads/lissy-001-1776881822520-2.jpg"
       ],
-      "updatedAt": 1776116572830
+      "updatedAt": 1776520038142
     },
     {
       "id": "til-001",
@@ -160,22 +162,22 @@
         "Facebook",
         "Instagram"
       ],
-      "stat1num": "",
-      "stat1label": "",
-      "stat2num": "",
-      "stat2label": "",
+      "stat1num": "+36%",
+      "stat1label": "więcej zapytań od klientów",
+      "stat2num": "58",
+      "stat2label": "leadów miesięcznie",
       "stat3num": "3.4x",
       "stat3label": "większy ruch z Facebooka",
       "status": "",
       "url": "https://biurorachunkowetil.pl",
       "youtubeUrl": "",
       "images": [
-        "uploads/til-001-1776202905312-1.jpg",
-        "uploads/til-001-1776202906648-2.jpg",
-        "uploads/til-001-1776202908035-3.jpg",
-        "uploads/til-001-1776202909294-4.jpg"
+        "uploads/til-001-1776881823835-1.jpg",
+        "uploads/til-001-1776881825286-2.jpg",
+        "uploads/til-001-1776881826717-3.jpg",
+        "uploads/til-001-1776881828152-4.jpg"
       ],
-      "updatedAt": 1776116572830
+      "updatedAt": 1776520038142
     },
     {
       "id": "azzuro-001",
@@ -190,21 +192,21 @@
         "E-commerce",
         "Instagram"
       ],
-      "stat1num": "",
-      "stat1label": "",
-      "stat2num": "",
-      "stat2label": "",
+      "stat1num": "129k",
+      "stat1label": "wyświetleń sezonu",
+      "stat2num": "+44%",
+      "stat2label": "więcej zapytań o ofertę",
       "stat3num": "3.1x",
       "stat3label": "wzrost zaangażowania",
       "status": "featured",
       "url": "",
       "youtubeUrl": "",
       "images": [
-        "uploads/azzuro-001-1776202910560-1.jpg",
-        "uploads/azzuro-001-1776202911873-2.jpg",
-        "uploads/azzuro-001-1776202913273-3.jpg"
+        "uploads/azzuro-001-1776881829539-1.jpg",
+        "uploads/azzuro-001-1776881830917-2.jpg",
+        "uploads/azzuro-001-1776881832758-3.jpg"
       ],
-      "updatedAt": 1776116572830
+      "updatedAt": 1776520038142
     },
     {
       "id": "sufit-001",
@@ -219,24 +221,24 @@
         "Facebook",
         "Instagram"
       ],
-      "stat1num": "",
-      "stat1label": "",
-      "stat2num": "",
-      "stat2label": "",
+      "stat1num": "87",
+      "stat1label": "leadów w 45 dni",
+      "stat2num": "+52%",
+      "stat2label": "wzrostu liczby zapytań",
       "stat3num": "3.8x",
       "stat3label": "lepszy koszt pozyskania",
       "status": "",
       "url": "https://samodzielnysufit.pl",
       "youtubeUrl": "",
       "images": [
-        "uploads/sufit-001-1776202914804-1.jpg",
-        "uploads/sufit-001-1776202916419-2.jpg",
-        "uploads/sufit-001-1776202917702-3.jpg",
-        "uploads/sufit-001-1776202919244-4.jpg",
-        "uploads/sufit-001-1776202920677-5.jpg",
-        "uploads/sufit-001-1776202921993-6.jpg"
+        "uploads/sufit-001-1776881834280-1.jpg",
+        "uploads/sufit-001-1776881835626-2.jpg",
+        "uploads/sufit-001-1776881837321-3.jpg",
+        "uploads/sufit-001-1776881838797-4.jpg",
+        "uploads/sufit-001-1776881840232-5.jpg",
+        "uploads/sufit-001-1776881841637-6.jpg"
       ],
-      "updatedAt": 1776116572830
+      "updatedAt": 1776520038142
     }
   ],
   "services": [
