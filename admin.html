@@ -1307,6 +1307,35 @@
         });
       }
 
+      function hasGithubUploadConfig(config) {
+        return !!(
+          config &&
+          config.owner &&
+          config.repo &&
+          config.branch &&
+          config.assetsDir &&
+          config.token
+        );
+      }
+
+      async function uploadImageFileToGithub(file, project, imageIndex, config) {
+        const dataUrl = await fileToDataUrl(file);
+        const upload = dataUriToGithubUploadInfo(dataUrl, project, imageIndex, config);
+
+        if (!upload) {
+          throw new Error('invalid-image-data');
+        }
+
+        await putGithubFile(
+          config,
+          upload.path,
+          upload.base64,
+          'Upload portfolio image via admin panel'
+        );
+
+        return upload.publicUrl;
+      }
+
       function renderImageList() {
         const project = getSelectedProject();
         if (!project) {
@@ -1496,29 +1525,40 @@
         if (!current || !files.length) return;
 
         try {
-          const dataUrls = [];
-          for (const file of files) {
-            dataUrls.push(await fileToDataUrl(file));
+          const config = saveGithubConfig();
+          if (!hasGithubUploadConfig(config)) {
+            setStatus('Uzupełnij ustawienia GitHuba i token przed uploadem zdjęć.', 'warn');
+            alert('Żeby dodawać zdjęcia z komputera bez błędu limitu, uzupełnij w panelu GitHub login, repo, branch, folder uploads i token. Wtedy zdjęcia będą od razu wysyłane do repo, zamiast zapisywać się jako ciężkie base64 w przeglądarce.');
+            return;
           }
 
-          if (typeof replaceIndex === 'number' && dataUrls[0]) {
-            current.images[replaceIndex] = dataUrls[0];
-            if (dataUrls.length > 1) {
-              current.images.splice.apply(current.images, [replaceIndex + 1, 0].concat(dataUrls.slice(1)));
+          setStatus('Wysyłam zdjęcia do GitHuba...', 'warn');
+
+          const uploadedUrls = [];
+          const startIndex = typeof replaceIndex === 'number' ? replaceIndex : current.images.length;
+
+          for (let i = 0; i < files.length; i += 1) {
+            uploadedUrls.push(await uploadImageFileToGithub(files[i], current, startIndex + i, config));
+          }
+
+          if (typeof replaceIndex === 'number' && uploadedUrls[0]) {
+            current.images[replaceIndex] = uploadedUrls[0];
+            if (uploadedUrls.length > 1) {
+              current.images.splice.apply(current.images, [replaceIndex + 1, 0].concat(uploadedUrls.slice(1)));
             }
           } else {
-            current.images = current.images.concat(dataUrls);
+            current.images = current.images.concat(uploadedUrls);
           }
 
           current.updatedAt = Date.now();
           renderImageList();
           renderProjectList();
           scheduleSave();
-          setStatus('Dodano zdjęcia z komputera do szkicu.', 'ok');
+          setStatus('Zdjęcia zostały wysłane do GitHuba i dodane do szkicu.', 'ok');
         } catch (error) {
           console.error(error);
-          setStatus('Nie udało się odczytać plików z komputera.', 'danger');
-          alert('Nie udało się wczytać wybranych obrazów.');
+          setStatus('Nie udało się wysłać zdjęć do GitHuba.', 'danger');
+          alert('Upload zdjęć nie udał się. Najczęściej chodzi o brak tokena, złą nazwę repo, zły branch albo brak uprawnień do zapisu.');
         } finally {
           els.imageUploadInput.value = '';
           delete els.imageUploadInput.dataset.replaceIndex;
