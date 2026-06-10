@@ -1,6 +1,25 @@
 {
   "projects": [
     {
+      "id": "nowa-realizacja-10-7bh48",
+      "title": "Handlersi",
+      "client": "Handlersi",
+      "desc": "W ramach współpracy z Handlers odpowiadam za prowadzenie i rozwój komunikacji marki w social mediach. Tworzę koncepcje postów, przygotowuję grafiki, opisy, scenariusze rolek oraz materiały promujące ofertę samochodów. Dbam o spójny wizerunek marki, estetykę publikacji i treści nastawione na przyciąganie uwagi oraz budowanie zaufania u potencjalnych klientów.",
+      "category": "Social Media",
+      "tags": [],
+      "stat1num": "",
+      "stat1label": "",
+      "stat2num": "",
+      "stat2label": "",
+      "stat3num": "",
+      "stat3label": "",
+      "status": "",
+      "url": "",
+      "youtubeUrl": "",
+      "images": [],
+      "updatedAt": 1781121974417
+    },
+    {
       "id": "autonakorfu-001",
       "title": "AutoNaKorfu — Content Marketing & Social Media",
       "client": "AutoNaKorfu.pl",
@@ -22,14 +41,14 @@
       "url": "https://autonakorfu.pl",
       "youtubeUrl": "",
       "images": [
-        "uploads/autonakorfu-001-1777031786411-1.jpg",
-        "uploads/autonakorfu-001-1777031788116-2.jpg",
-        "uploads/autonakorfu-001-1777031789327-3.jpg",
-        "uploads/autonakorfu-001-1777031790580-4.jpg",
-        "uploads/autonakorfu-001-1777031791842-5.jpg",
-        "uploads/autonakorfu-001-1777031793437-6.jpg"
+        "uploads/autonakorfu-001-1781121974449-1.jpg",
+        "uploads/autonakorfu-001-1781121976702-2.jpg",
+        "uploads/autonakorfu-001-1781121978040-3.jpg",
+        "uploads/autonakorfu-001-1781121979682-4.jpg",
+        "uploads/autonakorfu-001-1781121981256-5.jpg",
+        "uploads/autonakorfu-001-1781121982827-6.jpg"
       ],
-      "updatedAt": 1777031591029
+      "updatedAt": 1781121498780
     },
     {
       "id": "smclegal-001",
@@ -54,14 +73,12 @@
       "url": "https://smclegal.pl",
       "youtubeUrl": "",
       "images": [
-        "uploads/smclegal-001-1777031794932-1.jpg",
-        "uploads/smclegal-001-1777031796145-2.jpg",
-        "uploads/smclegal-001-1777031797395-3.jpg",
-        "uploads/smclegal-001-1777031798666-4.jpg",
-        "uploads/smclegal-001-1777031800083-5.png",
-        "uploads/smclegal-001-1777031801752-6.jpg"
+        "uploads/smclegal-001-1781121984489-1.jpg",
+        "uploads/smclegal-001-1781121985728-2.jpg",
+        "uploads/smclegal-001-1781121987230-3.jpg",
+        "uploads/smclegal-001-1781121989022-4.jpg"
       ],
-      "updatedAt": 1777030425119
+      "updatedAt": 1780908809647
     },
     {
       "id": "comodivo-001",
@@ -86,12 +103,12 @@
       "url": "https://comodivo.pl",
       "youtubeUrl": "",
       "images": [
-        "uploads/comodivo-001-1777031803577-1.jpg",
-        "uploads/comodivo-001-1777031804902-2.jpg",
-        "uploads/comodivo-001-1777031806260-3.jpg",
-        "uploads/comodivo-001-1777031807634-4.jpg"
+        "uploads/comodivo-001-1781121990298-1.jpg",
+        "uploads/comodivo-001-1781121991890-2.jpg",
+        "uploads/comodivo-001-1781121993332-3.jpg",
+        "uploads/comodivo-001-1781121994839-4.jpg"
       ],
-      "updatedAt": 1776520038142
+      "updatedAt": 1780908809647
     },
     {
       "id": "wallflow-001",
@@ -116,10 +133,10 @@
       "url": "https://wallflow.pl",
       "youtubeUrl": "",
       "images": [
-        "uploads/wallflow-001-1777031809087-1.jpg",
-        "uploads/wallflow-001-1777031810535-2.jpg"
+        "uploads/wallflow-001-1781121996197-1.jpg",
+        "uploads/wallflow-001-1781121997570-2.jpg"
       ],
-      "updatedAt": 1776520038142
+      "updatedAt": 1780908809647
     },
     {
       "id": "lissy-001",
@@ -144,10 +161,10 @@
       "url": "https://lissy.pl",
       "youtubeUrl": "",
       "images": [
-        "uploads/lissy-001-1777031811940-1.jpg",
-        "uploads/lissy-001-1777031813283-2.jpg"
+        "uploads/lissy-001-1781121998964-1.jpg",
+        "uploads/lissy-001-1781122000322-2.jpg"
       ],
-      "updatedAt": 1776520038142
+      "updatedAt": 1780908809647
     },
     {
       "id": "til-001",
@@ -172,12 +189,12 @@
       "url": "https://biurorachunkowetil.pl",
       "youtubeUrl": "",
       "images": [
-        "uploads/til-001-1777031814689-1.jpg",
-        "uploads/til-001-1777031815905-2.jpg",
-        "uploads/til-001-1777031817089-3.jpg",
-        "uploads/til-001-1777031818237-4.jpg"
+        "uploads/til-001-1781122001850-1.jpg",
+        "uploads/til-001-1781122003444-2.jpg",
+        "uploads/til-001-1781122004791-3.jpg",
+        "uploads/til-001-1781122006230-4.jpg"
       ],
-      "updatedAt": 1776520038142
+      "updatedAt": 1780908809647
     },
     {
       "id": "azzuro-001",
@@ -202,11 +219,11 @@
       "url": "",
       "youtubeUrl": "",
       "images": [
-        "uploads/azzuro-001-1777031819421-1.jpg",
-        "uploads/azzuro-001-1777031820621-2.jpg",
-        "uploads/azzuro-001-1777031822055-3.jpg"
+        "uploads/azzuro-001-1781122007651-1.jpg",
+        "uploads/azzuro-001-1781122008981-2.jpg",
+        "uploads/azzuro-001-1781122010411-3.jpg"
       ],
-      "updatedAt": 1776520038142
+      "updatedAt": 1780908809647
     },
     {
       "id": "sufit-001",
@@ -231,14 +248,14 @@
       "url": "https://samodzielnysufit.pl",
       "youtubeUrl": "",
       "images": [
-        "uploads/sufit-001-1777031823432-1.jpg",
-        "uploads/sufit-001-1777031824909-2.jpg",
-        "uploads/sufit-001-1777031826179-3.jpg",
-        "uploads/sufit-001-1777031827458-4.jpg",
-        "uploads/sufit-001-1777031828737-5.jpg",
-        "uploads/sufit-001-1777031830172-6.jpg"
+        "uploads/sufit-001-1781122011949-1.jpg",
+        "uploads/sufit-001-1781122013268-2.jpg",
+        "uploads/sufit-001-1781122014624-3.jpg",
+        "uploads/sufit-001-1781122016137-4.jpg",
+        "uploads/sufit-001-1781122017617-5.jpg",
+        "uploads/sufit-001-1781122019157-6.jpg"
       ],
-      "updatedAt": 1777031485258
+      "updatedAt": 1780908809647
     },
     {
       "id": "nowa-realizacja-10-2moqr",
@@ -259,7 +276,7 @@
       "images": [
         "uploads/nowa-realizacja-10-2moqr-1777031099413-1.jpg"
       ],
-      "updatedAt": 1777031786379
+      "updatedAt": 1781121521837
     }
   ],
   "services": [
