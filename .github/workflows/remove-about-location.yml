@@ -1,0 +1,42 @@
+name: Remove about location
+
+on:
+  push:
+    branches:
+      - main
+
+permissions:
+  contents: write
+
+jobs:
+  update:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Remove location from About section
+        run: |
+          node <<'NODE'
+          const fs = require('fs');
+          const path = 'index.html';
+          let html = fs.readFileSync(path, 'utf8');
+
+          html = html.replace(
+            /\n\s*<p[^>]*id="about-location"[^>]*>[\s\S]*?<\/p>/,
+            ''
+          );
+
+          html = html.replace(
+            "  if (p.location) document.getElementById('about-location').textContent = '📍 ' + p.location;",
+            "  const aboutLocation = document.getElementById('about-location');\n  if (p.location && aboutLocation) aboutLocation.textContent = '📍 ' + p.location;"
+          );
+
+          fs.writeFileSync(path, html);
+          NODE
+      - name: Commit and publish
+        run: |
+          rm -f .github/workflows/remove-about-location.yml
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add index.html .github/workflows/remove-about-location.yml
+          git commit -m "Remove location from about section"
+          git push
