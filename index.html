@@ -1655,7 +1655,6 @@ footer p { font-size: 0.82rem; color: var(--muted); }
           <div class="avatar-ring" id="avatar-initials">S</div>
           <h3 style="font-family:'Syne',sans-serif;font-weight:700;font-size:1.2rem;margin-bottom:0.25rem" id="about-name">Szymon Popiołek</h3>
           <p style="color:var(--muted);font-size:0.9rem" id="about-tagline">Marketing Freelancer & Content Creator</p>
-          <p style="margin-top:0.4rem;font-size:0.82rem;color:var(--muted)" id="about-location">📍 Kraków, Polska</p>
           <div class="skills-head">Narzędzia i obszary</div>
           <div class="skills-grid" id="skills-grid">
             <div class="skill-chip skill-chip-accent">Meta Ads</div>
@@ -2161,7 +2160,8 @@ async function init() {
   document.getElementById('page-title').textContent = name + ' — Portfolio';
   document.getElementById('footer-copy').textContent = '© ' + new Date().getFullYear() + ' Szymon Popiołek. Wszelkie prawa zastrzeżone.';
   if (p.tagline) document.getElementById('about-tagline').textContent = p.tagline;
-  if (p.location) document.getElementById('about-location').textContent = '📍 ' + p.location;
+  const aboutLocation = document.getElementById('about-location');
+  if (p.location && aboutLocation) aboutLocation.textContent = '📍 ' + p.location;
   if (p.hero) document.getElementById('hero-sub').textContent = p.hero;
   if (p.bio1) document.getElementById('bio-1').innerHTML = p.bio1;
   if (p.bio2) document.getElementById('bio-2').innerHTML = p.bio2;
