@@ -3,6 +3,19 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<script>
+if (location.hash === '#realizacje' && matchMedia('(max-width: 700px)').matches) {
+  for (const id of ['autonakorfu-001', 'smclegal-001']) {
+    const preload = document.createElement('link');
+    preload.rel = 'preload';
+    preload.as = 'image';
+    preload.type = 'image/avif';
+    preload.href = 'assets/covers/' + id + '-mobile.avif';
+    preload.fetchPriority = 'high';
+    document.head.append(preload);
+  }
+}
+</script>
 <title id="page-title">Portfolio</title>
 <meta name="theme-color" content="#ffffff">
 <link rel="icon" href="favicon.ico" sizes="any">
@@ -1454,7 +1467,7 @@ footer p { font-size: 0.82rem; color: var(--muted); }
   }
 }
 </style>
-<link rel="stylesheet" href="karts-preview.css">
+<link rel="stylesheet" href="karts-preview.css?v=mobile-2">
 <style id="agency-light-preview-theme">
 /* Local concept: light, trust-led agency direction inspired by spacious editorial portfolios. */
 :root {
@@ -3943,7 +3956,7 @@ document.querySelector('[data-page="home"]').classList.add('active');
 initNeural();
 init();
 </script>
-<script src="karts-preview.js?v=performance-1"></script>
+<script src="karts-preview.js?v=mobile-2"></script>
 <script src="portfolio-icons.js"></script>
 </body>
 </html>

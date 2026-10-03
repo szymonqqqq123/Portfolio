@@ -1,7 +1,7 @@
 /* Local design preview, using the portfolio's existing data and project dialogs. */
 (function () {
   const home = document.getElementById('page-home');
-  const style = document.querySelector('link[href="karts-preview.css"]');
+  const style = document.querySelector('link[href^="karts-preview.css"]');
   document.head.append(style);
   const escape = value => String(value || '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
   const section = document.createElement('div');
@@ -40,15 +40,16 @@
     'ekierownik-001': 'Działania marketingowe, social media i materiały wideo.',
     'intervue-001': 'Marketing, social media, współpraca z twórcami i zarządzanie projektem.'
   };
-  function coverContents(p) {
+  function coverContents(p, priority = false) {
     const name = p.id === 'sufit-001' ? 'Samodzielny Sufit' : p.id === 'radek-buslowicz-001' ? 'Radek Buslowicz' : p.client || p.title;
     const alt = p.id === 'til-001' ? 'Ilustracja fotograficzna AI na podstawie materiałów Biura Rachunkowego TIL' : name;
     const scope = coverScopes[p.id] || (p.tags || []).slice(0, 3).join(' · ') || p.category;
     const responsive = p.cover ? ` srcset="${escape(p.cover.replace('.webp', '-480.webp'))} 480w, ${escape(p.cover.replace('.webp', '-800.webp'))} 800w, ${escape(p.cover)} 1600w" sizes="(max-width: 700px) 94vw, (max-width: 1400px) 46vw, 640px"` : '';
-    return `<img src="${escape(p.cover || p.images?.[0])}"${responsive} alt="${escape(alt)}" width="1600" height="1000" loading="lazy" decoding="async"><div class="kd-cover-copy"><h3>${escape(name)}</h3><p class="kd-cover-scope">${escape(scope)}</p></div><span class="kd-cover-arrow" aria-hidden="true">↗</span>`;
+    const mobile = p.cover ? `<source media="(max-width: 700px)" type="image/avif" srcset="${escape(p.cover.replace('.webp', '-mobile.avif'))}"><source media="(max-width: 700px)" type="image/webp" srcset="${escape(p.cover.replace('.webp', '-mobile.webp'))}">` : '';
+    return `<picture>${mobile}<img src="${escape(p.cover || p.images?.[0])}"${responsive} alt="${escape(alt)}" width="1600" height="1000" loading="${priority ? 'eager' : 'lazy'}" fetchpriority="${priority ? 'high' : 'auto'}" decoding="async"></picture><div class="kd-cover-copy"><h3>${escape(name)}</h3><p class="kd-cover-scope">${escape(scope)}</p></div><span class="kd-cover-arrow" aria-hidden="true">↗</span>`;
   }
   // Covers are separate assets: the original project galleries remain untouched.
-  buildProjectCard = p => `<button type="button" class="project-card kd-cover-card fade-in" onclick="openProjectDetail('${escape(p.__key)}')" aria-label="Zobacz projekt ${escape(p.client || p.title)}">${coverContents(p)}</button>`;
+  buildProjectCard = p => `<button type="button" class="project-card kd-cover-card" onclick="openProjectDetail('${escape(p.__key)}')" aria-label="Zobacz projekt ${escape(p.client || p.title)}">${coverContents(p, location.hash === '#realizacje' && ['autonakorfu-001', 'smclegal-001'].includes(p.id))}</button>`;
   // Campaign outcomes require client reports; gallery counts are directly verifiable.
   getProjectStats = project => {
     if (project.reportedResults?.length) return project.reportedResults;

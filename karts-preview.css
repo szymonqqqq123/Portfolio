@@ -244,8 +244,8 @@ nav .nav-logo,footer .logo { font-family:'DM Sans',sans-serif; font-size:23px; l
   color: #fff;
 }
 .kd-home .kd-project.kd-cover-card { flex: 0 0 calc(50% - 12px); }
-#page-realizacje .kd-cover-card > img,
-.kd-home .kd-project.kd-cover-card > img {
+#page-realizacje .kd-cover-card picture img,
+.kd-home .kd-project.kd-cover-card picture img {
   position: absolute;
   inset: 0;
   width: 100%;
@@ -317,8 +317,8 @@ nav .nav-logo,footer .logo { font-family:'DM Sans',sans-serif; font-size:23px; l
   font-size: 23px;
   opacity: .8;
 }
-#page-realizacje .kd-cover-card:hover > img,
-.kd-home .kd-project.kd-cover-card:hover > img { transform: scale(1.035); }
+#page-realizacje .kd-cover-card:hover picture img,
+.kd-home .kd-project.kd-cover-card:hover picture img { transform: scale(1.035); }
 .kd-cover-card:focus-visible { outline: 3px solid #248aff; outline-offset: 5px; }
 @media (max-width: 700px) {
   #page-realizacje .projects-grid,
@@ -329,6 +329,6 @@ nav .nav-logo,footer .logo { font-family:'DM Sans',sans-serif; font-size:23px; l
   .kd-cover-card > .kd-cover-arrow { right: 18px; bottom: 22px; }
 }
 @media (prefers-reduced-motion: reduce) {
-  #page-realizacje .kd-cover-card > img,
-  .kd-home .kd-project.kd-cover-card > img { transition: none; }
+  #page-realizacje .kd-cover-card picture img,
+  .kd-home .kd-project.kd-cover-card picture img { transition: none; }
 }
