@@ -4,14 +4,14 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title id="page-title">Portfolio</title>
-<meta name="theme-color" content="#0a0a0f">
+<meta name="theme-color" content="#ffffff">
 <link rel="icon" href="favicon.ico" sizes="any">
 <link rel="icon" type="image/svg+xml" href="favicon.svg">
 <link rel="icon" type="image/png" sizes="32x32" href="favicon-32.png">
 <link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;700;800&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;1,9..40,300&family=Montserrat:wght@700;800;900&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;700;800&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;1,9..40,300&family=Montserrat:wght@700;800;900&display=swap" rel="stylesheet">
 <style>
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 :root {
@@ -256,6 +256,7 @@ nav {
 
 /* ===================== REALIZACJE PAGE ===================== */
 #page-realizacje { padding-top: 7rem; position: relative; z-index: 1; }
+#page-realizacje .container { max-width: 1480px; }
 .page-header { margin-bottom: 3rem; }
 .page-header h1 { font-family: 'Syne', sans-serif; font-weight: 800; font-size: clamp(2.5rem, 5vw, 4rem); letter-spacing: -0.03em; line-height: 1.05; margin-bottom: 0.75rem; }
 .page-header h1 span { background: linear-gradient(135deg, var(--accent), var(--accent2)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
@@ -267,8 +268,17 @@ nav {
 .filter-chip:hover { color: var(--text); border-color: rgba(255,255,255,0.15); }
 .filter-chip.active { background: rgba(124,109,250,0.12); border-color: rgba(124,109,250,0.3); color: var(--accent); }
 
+/* Top row */
+.projects-top-row {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 1.5rem;
+  margin-bottom: 1.5rem;
+  width: 100%;
+}
+
 /* Projects grid */
-.projects-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(340px, 1fr)); gap: 1.5rem; padding-bottom: 5rem; }
+.projects-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 1.5rem; padding-bottom: 5rem; align-items: start; }
 
 /* Project card */
 .project-card {
@@ -278,6 +288,9 @@ nav {
   overflow: hidden;
   transition: border-color 0.25s, transform 0.25s, box-shadow 0.25s;
   box-shadow: 0 18px 50px rgba(0,0,0,0.18);
+  display: grid;
+  grid-template-rows: auto 1fr;
+  min-height: 100%;
 }
 .project-card:hover {
   border-color: rgba(124,109,250,0.35);
@@ -290,8 +303,29 @@ nav {
 }
 
 .img-carousel { position: relative; background: var(--bg3); }
-.img-carousel img { width: 100%; height: auto; max-height: 550px; object-fit: contain; display: block; }
-.img-placeholder { width: 100%; height: 200px; display: flex; align-items: center; justify-content: center; font-size: 2.5rem; color: var(--muted); background: var(--bg3); }
+.img-carousel img {
+  width: 100%;
+  height: clamp(220px, 19vw, 290px);
+  object-fit: contain;
+  display: block;
+  background:
+    radial-gradient(circle at 24% 18%, rgba(124,109,250,0.12), transparent 28%),
+    linear-gradient(180deg, rgba(15,15,22,0.98), rgba(11,11,17,0.98));
+  padding: 0.4rem;
+}
+.img-carousel.is-clickable img { cursor: pointer; }
+.img-placeholder {
+  width: 100%;
+  height: clamp(220px, 19vw, 290px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 2.5rem;
+  color: var(--muted);
+  background:
+    radial-gradient(circle at 30% 20%, rgba(124,109,250,0.16), transparent 30%),
+    linear-gradient(180deg, rgba(22,22,30,0.95), rgba(15,15,21,0.98));
+}
 .featured-badge { position: absolute; top: 0.75rem; right: 0.75rem; background: rgba(10,10,15,0.85); backdrop-filter: blur(8px); border: 1px solid rgba(124,109,250,0.3); color: var(--accent); font-size: 0.7rem; padding: 0.2rem 0.6rem; border-radius: 100px; }
 .project-image-count {
   position: absolute;
@@ -313,10 +347,10 @@ nav {
 .dot { width: 6px; height: 6px; border-radius: 50%; background: rgba(255,255,255,0.35); cursor: pointer; transition: background 0.2s, transform 0.2s; }
 .dot.active { background: #fff; transform: scale(1.3); }
 
-.project-body { padding: 1.35rem 1.45rem 1.45rem; display: grid; gap: 1rem; }
+.project-body { padding: 1.25rem 1.35rem 1.35rem; display: grid; gap: 0.95rem; align-content: start; }
 .project-head { display: flex; align-items: flex-start; justify-content: space-between; gap: 1rem; }
 .project-cat { font-size: 0.7rem; color: var(--accent); letter-spacing: 0.12em; text-transform: uppercase; margin-bottom: 0.45rem; }
-.project-title { font-family: 'Syne', sans-serif; font-weight: 700; font-size: 1.16rem; margin-bottom: 0; line-height: 1.22; letter-spacing: -0.02em; }
+.project-title { font-family: 'Syne', sans-serif; font-weight: 700; font-size: 1.16rem; margin-bottom: 0; line-height: 1.18; letter-spacing: -0.02em; }
 .project-client {
   display: inline-flex;
   align-items: center;
@@ -330,6 +364,15 @@ nav {
   color: #d7d2ff;
   text-align: center;
   white-space: nowrap;
+}
+.project-summary {
+  font-size: 0.88rem;
+  color: #d7daea;
+  line-height: 1.62;
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
 }
 .project-section {
   padding: 0.95rem 1rem;
@@ -392,6 +435,10 @@ nav {
   gap: 0.75rem;
   position: relative;
   z-index: 1;
+}
+.project-stats.compact {
+  grid-template-columns: 1fr;
+  gap: 0.55rem;
 }
 .pstat {
   padding: 0.95rem 1rem;
@@ -458,6 +505,9 @@ nav {
   position: relative;
   z-index: 1;
 }
+.pstat.compact { padding: 0.85rem 0.9rem; min-width: 0; }
+.pstat.compact .n { font-size: clamp(1.05rem, 1.25vw, 1.35rem); white-space: normal; line-height: 1.05; }
+.pstat.compact .l { font-size: 0.72rem; }
 .project-tags { display: flex; flex-wrap: wrap; gap: 0.42rem; margin: 0; }
 .tag {
   font-size: 0.72rem;
@@ -467,24 +517,136 @@ nav {
   padding: 0.22rem 0.58rem;
   border-radius: 100px;
 }
+.tag.more {
+  color: var(--muted);
+  background: rgba(255,255,255,0.04);
+  border-color: rgba(255,255,255,0.08);
+}
 .project-actions { display: flex; align-items: center; justify-content: space-between; gap: 1rem; flex-wrap: wrap; }
 .project-note { font-size: 0.72rem; color: var(--muted); }
+.project-open-btn,
 .project-link {
   display: inline-flex;
   align-items: center;
   gap: 0.45rem;
   font-size: 0.82rem;
-  color: #fff;
   text-decoration: none;
   padding: 0.72rem 1rem;
   border-radius: 999px;
+  cursor: pointer;
+  border: none;
+  font-family: inherit;
+}
+.project-open-btn {
+  color: #fff;
   background: linear-gradient(135deg, var(--accent), var(--accent2));
   box-shadow: 0 10px 26px rgba(124,109,250,0.24);
 }
+.project-link {
+  color: #ddd9ff;
+  background: rgba(255,255,255,0.04);
+  border: 1px solid rgba(255,255,255,0.08);
+}
+.project-open-btn:hover,
 .project-link:hover { text-decoration: none; filter: brightness(1.04); }
+.project-open-btn:hover { transform: translateY(-1px); }
 .yt-wrap { margin-top: 0.75rem; border-radius: 10px; overflow: hidden; background: #000; }
 .yt-wrap iframe { width: 100%; height: 100%; border: none; }
 .yt-wrap video { width: 100%; display: block; max-height: 600px; }
+
+/* Project detail */
+.project-detail-modal {
+  position: fixed;
+  inset: 0;
+  z-index: 10000;
+  display: none;
+  align-items: center;
+  justify-content: center;
+  padding: 2rem;
+}
+.project-detail-modal.open { display: flex; }
+.project-detail-backdrop {
+  position: absolute;
+  inset: 0;
+  background: rgba(7,7,11,0.82);
+  backdrop-filter: blur(14px);
+}
+.project-detail-dialog {
+  position: relative;
+  width: min(1240px, 100%);
+  max-height: calc(100vh - 4rem);
+  overflow: auto;
+  border-radius: 30px;
+  border: 1px solid rgba(124,109,250,0.18);
+  background: linear-gradient(180deg, rgba(14,14,20,0.98), rgba(11,11,16,0.99));
+  box-shadow: 0 30px 120px rgba(0,0,0,0.45);
+}
+.project-detail-content { padding: 1.2rem; }
+.project-detail-shell {
+  display: grid;
+  grid-template-columns: minmax(0, 1.1fr) minmax(320px, 0.9fr);
+  gap: 1.2rem;
+}
+.project-detail-gallery,
+.project-detail-side {
+  min-width: 0;
+}
+.project-detail-gallery .img-carousel img {
+  height: auto;
+  min-height: 340px;
+  max-height: 70vh;
+  padding: 0;
+}
+.project-detail-side {
+  display: grid;
+  gap: 1rem;
+  align-content: start;
+}
+.project-detail-top {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 1rem;
+}
+.project-detail-title {
+  font-family: 'Syne', sans-serif;
+  font-weight: 800;
+  font-size: clamp(1.9rem, 3.5vw, 2.7rem);
+  line-height: 1.02;
+  letter-spacing: -0.03em;
+  margin: 0.35rem 0 0;
+}
+.project-detail-close {
+  width: 42px;
+  height: 42px;
+  border-radius: 50%;
+  border: 1px solid rgba(255,255,255,0.08);
+  background: rgba(255,255,255,0.04);
+  color: #fff;
+  font-size: 1.1rem;
+  cursor: pointer;
+  flex-shrink: 0;
+}
+.project-detail-close:hover {
+  border-color: rgba(124,109,250,0.28);
+  background: rgba(124,109,250,0.12);
+}
+.project-detail-summary {
+  font-size: 0.92rem;
+  color: #d6daea;
+  line-height: 1.7;
+}
+.project-detail-meta {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.8rem;
+  flex-wrap: wrap;
+}
+.project-detail-note {
+  font-size: 0.78rem;
+  color: var(--muted);
+}
 
 /* ===================== ABOUT PAGE ===================== */
 #page-omnie { padding-top: 7rem; position: relative; z-index: 1; padding-bottom: 5rem; }
@@ -754,6 +916,7 @@ footer p { font-size: 0.82rem; color: var(--muted); }
   cursor: pointer; text-decoration: none;
   transition: border-color 0.25s, transform 0.25s;
   position: relative;
+  min-height: 100%;
 }
 .behance-realizacje:hover { border-color: rgba(23,105,255,0.5); transform: translateY(-4px); }
 .behance-realizacje .beh-top {
@@ -1234,9 +1397,11 @@ footer p { font-size: 0.82rem; color: var(--muted); }
   .skills-grid { grid-template-columns: 1fr 1fr; }
   .contact-inner { grid-template-columns: 1fr; gap: 2rem; padding: 2rem; }
   .preview-grid { grid-template-columns: 1fr; }
-  .projects-grid { grid-template-columns: 1fr; }
+  .projects-top-row { grid-template-columns: 1fr; }
+  .projects-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
   .project-stats { grid-template-columns: 1fr; }
   .project-head { flex-direction: column; align-items: flex-start; }
+  .project-detail-shell { grid-template-columns: 1fr; }
   .ai-inner { grid-template-columns: 1fr; gap: 2.5rem; }
   .model-cards { grid-template-columns: repeat(2, minmax(0, 1fr)); }
   .ai-visual { order: -1; }
@@ -1255,13 +1420,26 @@ footer p { font-size: 0.82rem; color: var(--muted); }
   .hero-stat-item:nth-last-child(-n+2) { border-bottom: none; }
   .hero-cta-group { flex-direction: column; align-items: center; }
   .project-body { padding: 1.1rem; }
+  .projects-top-row { grid-template-columns: 1fr; }
+  .projects-grid { grid-template-columns: 1fr; }
   .project-actions { align-items: flex-start; }
+  .project-open-btn,
   .project-link { width: 100%; justify-content: center; }
+  .project-detail-modal { padding: 0.8rem; }
+  .project-detail-content { padding: 0.8rem; }
+  .project-detail-dialog { max-height: calc(100vh - 1.6rem); border-radius: 24px; }
+  .project-stats.compact { grid-template-columns: 1fr; }
   .model-cards { grid-template-columns: 1fr; }
   .model-card,
   .model-card.featured { grid-template-columns: auto minmax(0, 1fr); grid-column: auto; }
   .model-badge { margin-top: 0.15rem; }
   .neural-canvas { height: 300px; }
+}
+
+@media(max-width:1200px) {
+  .projects-top-row { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+  .projects-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .project-detail-shell { grid-template-columns: 1fr; }
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -1274,6 +1452,450 @@ footer p { font-size: 0.82rem; color: var(--muted); }
     animation: none !important;
     transition: none !important;
   }
+}
+</style>
+<link rel="stylesheet" href="karts-preview.css">
+<style id="agency-light-preview-theme">
+/* Local concept: light, trust-led agency direction inspired by spacious editorial portfolios. */
+:root {
+  --bg: #f7f8fa;
+  --bg2: #eef2f7;
+  --bg3: #e9eef5;
+  --accent: #0868ff;
+  --accent2: #14a7ff;
+  --text: #0b0d12;
+  --muted: #606672;
+  --border: rgba(11,13,18,0.11);
+  --card: #ffffff;
+}
+
+body {
+  background: #f7f8fa;
+  color: var(--text);
+}
+body::before {
+  opacity: 0.16;
+  mix-blend-mode: multiply;
+}
+.blob { display: none; }
+.container { max-width: 1320px; }
+
+/* Navigation */
+nav {
+  padding: 1.1rem 5vw;
+  background: rgba(255,255,255,0.88);
+  border-bottom: 1px solid rgba(11,13,18,0.08);
+  box-shadow: 0 6px 30px rgba(15,23,42,0.04);
+}
+.nav-logo { color: #090b10; font-size: 1.28rem; }
+.nav-logo span { color: var(--accent); }
+.nav-links a { color: #555c69; }
+.nav-links a:hover { color: #090b10; background: #eef3fb; }
+.nav-links a.active { color: #090b10; background: #e8f0ff; }
+.nav-links a.nav-cta {
+  background: var(--accent);
+  border-radius: 10px;
+  padding: 0.62rem 1.35rem;
+  box-shadow: 0 9px 24px rgba(8,104,255,0.2);
+}
+.nav-admin { display: none !important; }
+.hamburger span { background: #090b10; }
+.mobile-menu { background: rgba(255,255,255,0.98); }
+.mobile-menu a { color: #5d6470; }
+.mobile-menu a:hover,
+.mobile-menu a.active { color: #090b10; background: #edf3ff; }
+
+/* Home order: work appears directly after the opening promise. */
+#page-home.active { display: flex; flex-direction: column; }
+#page-home .hero { order: 1; }
+#page-home .home-preview { order: 2; }
+#page-home .stats-section { order: 3; }
+#page-home .process-section { order: 4; }
+#page-home .ai-section { order: 5; }
+
+/* Hero */
+.hero {
+  min-height: min(900px, 100vh);
+  padding: 8.5rem 5vw 5rem;
+  background:
+    radial-gradient(circle at 84% 20%, rgba(20,167,255,0.11), transparent 29%),
+    radial-gradient(circle at 12% 88%, rgba(8,104,255,0.08), transparent 30%),
+    #ffffff;
+}
+.hero::after {
+  background-image:
+    linear-gradient(rgba(9,31,61,0.045) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(9,31,61,0.045) 1px, transparent 1px);
+  background-size: 72px 72px;
+  mask-image: linear-gradient(to bottom, rgba(0,0,0,0.8), transparent 88%);
+}
+.hero-eyebrow {
+  color: #626a77;
+  margin-bottom: 1.8rem;
+  letter-spacing: 0.12em;
+}
+.hero-eyebrow::before,
+.hero-eyebrow::after { background: linear-gradient(90deg, transparent, rgba(11,13,18,0.18)); }
+.hero-eyebrow::after { background: linear-gradient(90deg, rgba(11,13,18,0.18), transparent); }
+.hero-name {
+  width: min(1120px, 100%);
+  font-size: clamp(3.7rem, 7.2vw, 7rem);
+  line-height: 0.98;
+  letter-spacing: -0.065em;
+  color: #090b10;
+  background: none;
+  -webkit-text-fill-color: currentColor;
+  margin-bottom: 1.6rem;
+}
+.hero-name span { color: var(--accent); }
+.hero-roles { margin-bottom: 1.75rem; }
+.role-pill {
+  background: #fff;
+  border-color: rgba(11,13,18,0.12);
+  color: #4f5663;
+  box-shadow: 0 6px 22px rgba(15,23,42,0.04);
+}
+.role-pill.accent { color: var(--accent); border-color: rgba(8,104,255,0.28); background: #edf4ff; }
+.role-dot { background: rgba(11,13,18,0.2); }
+.hero-desc { max-width: 720px; color: #59606c; margin-bottom: 2rem; }
+.hero-desc strong { color: #111827; font-weight: 500; }
+.hero-cta-group { margin-bottom: 3.2rem; }
+.btn-primary,
+.form-submit,
+.project-open-btn {
+  background: var(--accent);
+  border-radius: 10px;
+  box-shadow: 0 12px 30px rgba(8,104,255,0.2);
+}
+.btn-primary:hover { box-shadow: 0 16px 38px rgba(8,104,255,0.28); }
+.btn-ghost {
+  color: #0b0d12;
+  background: #fff;
+  border-color: rgba(11,13,18,0.18);
+  border-radius: 10px;
+}
+.btn-ghost:hover { background: #f0f4fa; border-color: rgba(11,13,18,0.28); }
+.hero-stats-row {
+  width: min(900px, 100%);
+  background: rgba(255,255,255,0.9);
+  border-color: rgba(11,13,18,0.1);
+  border-radius: 18px;
+  box-shadow: 0 22px 70px rgba(23,43,77,0.09);
+  margin-bottom: 2.5rem;
+}
+.hero-stat-item { border-color: rgba(11,13,18,0.09); }
+.hero-stat-item::before { background: linear-gradient(135deg, rgba(8,104,255,0.08), transparent); }
+.stat-num { color: #0b0d12; }
+.stat-label,
+.scroll-hint { color: #6b7280; }
+.scroll-arrow { border-color: rgba(11,13,18,0.16); }
+
+/* Shared light editorial headings */
+.section-label { color: var(--accent); font-weight: 600; }
+.page-header { max-width: 880px; margin-bottom: 3.5rem; }
+.page-header h1 { font-size: clamp(3rem, 6.6vw, 6.2rem); letter-spacing: -0.06em; }
+.page-header h1 span,
+.contact-left h2 span,
+.process-head h2 span,
+.stats-section-header h2 span,
+.wyniki-hero h2 span,
+[style*="linear-gradient(135deg,var(--accent),var(--accent2))"] {
+  background: linear-gradient(90deg, var(--accent), var(--accent2)) !important;
+  -webkit-background-clip: text !important;
+  background-clip: text !important;
+}
+
+/* Featured work: wide horizontal visual-first rail */
+.home-preview {
+  padding: 7rem 0 7.5rem;
+  background: #f1f3f6;
+  border-top: 1px solid rgba(11,13,18,0.07);
+}
+.home-preview .container { max-width: none; padding-right: 0; }
+.home-preview-header { max-width: 1320px; padding-right: 5vw; margin-bottom: 2.2rem; }
+.home-preview .section-title { font-size: clamp(2.6rem, 5vw, 4.6rem); color: #0a0c10; }
+.see-all-btn { color: var(--accent); border-color: rgba(8,104,255,0.3); background: #fff; border-radius: 9px; }
+.behance-card {
+  max-width: calc(1320px - 10vw);
+  min-height: 170px;
+  margin-right: 5vw !important;
+  border-radius: 24px;
+  background: #0b111d;
+  border: 0;
+  box-shadow: 0 24px 65px rgba(15,23,42,0.15);
+}
+.preview-grid {
+  display: flex;
+  gap: 1.5rem;
+  overflow-x: auto;
+  padding: 0 5vw 1.5rem 0;
+  scroll-snap-type: x mandatory;
+  scrollbar-width: thin;
+  scrollbar-color: rgba(8,104,255,0.45) transparent;
+}
+.preview-grid .project-card {
+  flex: 0 0 min(760px, 68vw);
+  scroll-snap-align: start;
+}
+.preview-grid .img-carousel img,
+.preview-grid .img-placeholder { height: clamp(360px, 42vw, 560px); }
+
+/* Visual-first project cards. Details remain in the full project modal. */
+.project-card {
+  background: #fff;
+  border-color: rgba(11,13,18,0.1);
+  border-radius: 24px;
+  box-shadow: 0 18px 54px rgba(15,23,42,0.08);
+}
+.project-card:hover {
+  border-color: rgba(8,104,255,0.32);
+  box-shadow: 0 28px 72px rgba(15,23,42,0.13);
+}
+.project-card.featured { border-color: rgba(8,104,255,0.24); box-shadow: 0 20px 58px rgba(8,104,255,0.1); }
+.img-carousel { background: #e9edf2; }
+.img-carousel img {
+  height: clamp(280px, 25vw, 390px);
+  padding: 0;
+  object-fit: cover;
+  background: #e9edf2;
+}
+.img-placeholder { background: #e9edf2; }
+.project-body { padding: 1.35rem 1.5rem 1.55rem; gap: 0.8rem; }
+.project-title { color: #0b0d12; font-size: clamp(1.2rem, 1.7vw, 1.55rem); }
+.project-cat { color: var(--accent); font-weight: 600; }
+.project-client { color: #46505f; background: #f2f5f9; border-color: rgba(11,13,18,0.08); }
+.project-summary { color: #606672; }
+.project-card > .project-body > .project-section,
+.project-card > .project-body > .project-tags,
+.project-card > .project-body > .project-summary,
+.project-card .project-note,
+.project-card .project-link { display: none; }
+.project-actions { justify-content: flex-start; }
+.project-open-btn { padding: 0.72rem 1.05rem; }
+.featured-badge { background: rgba(255,255,255,0.92); color: #0b0d12; border-color: rgba(11,13,18,0.1); }
+
+/* Full portfolio page */
+#page-realizacje,
+#page-omnie,
+#page-uslugi,
+#page-kontakt,
+#page-certyfikaty {
+  background: #f7f8fa;
+  color: #0b0d12;
+}
+#page-realizacje .container { max-width: 1380px; }
+.filter-chip { background: #fff; border-color: rgba(11,13,18,0.11); color: #606672; }
+.filter-chip:hover { color: #0b0d12; border-color: rgba(11,13,18,0.25); }
+.filter-chip.active { color: var(--accent); background: #edf4ff; border-color: rgba(8,104,255,0.28); }
+.behance-realizacje { background: #fff; border-color: rgba(11,13,18,0.1); box-shadow: 0 18px 54px rgba(15,23,42,0.08); }
+.behance-realizacje .beh-body { color: #0b0d12; }
+.beh-link-btn { border-radius: 8px; }
+
+/* Dark proof section: results stay high-contrast. */
+.stats-section {
+  color: #f8fafc;
+  background:
+    radial-gradient(circle at 15% 10%, rgba(8,104,255,0.25), transparent 30%),
+    radial-gradient(circle at 90% 90%, rgba(20,167,255,0.14), transparent 35%),
+    #09111f;
+  border: 0;
+  --text: #f8fafc;
+  --muted: #9da9ba;
+  --border: rgba(255,255,255,0.11);
+  --card: #111c2d;
+}
+.stats-section-header { max-width: 760px; margin-left: auto; margin-right: auto; }
+.stats-section-header h2 { font-size: clamp(2.5rem, 5vw, 4.8rem); }
+.stat-block { background: rgba(15,26,43,0.88); border-color: rgba(255,255,255,0.1); }
+.stat-block.highlight { background: linear-gradient(135deg, rgba(8,104,255,0.22), rgba(15,26,43,0.94)); }
+
+/* Process */
+.process-section { padding: 7rem 0; background: #fff; }
+.process-shell { background: transparent; border: 0; padding: 0; overflow: visible; }
+.process-shell::before { display: none; }
+.process-head { margin-bottom: 3.5rem; }
+.process-head h2 { color: #0b0d12; font-size: clamp(2.7rem, 5.4vw, 5.2rem); }
+.process-head p { color: #626a77; font-size: 1rem; }
+.process-grid { gap: 0; border-top: 1px solid rgba(11,13,18,0.12); border-bottom: 1px solid rgba(11,13,18,0.12); }
+.process-card {
+  min-height: 330px;
+  background: #fff;
+  color: #0b0d12;
+  border: 0;
+  border-right: 1px solid rgba(11,13,18,0.12);
+  border-radius: 0;
+  padding: 2.1rem 1.65rem;
+  box-shadow: none;
+}
+.process-card:last-child { border-right: 0; }
+.process-card::before { background: radial-gradient(circle, rgba(8,104,255,0.1), transparent 68%); }
+.process-card::after { background: var(--accent); height: 4px; }
+.process-card:hover { transform: none; border-color: rgba(11,13,18,0.12); box-shadow: inset 0 -5px 0 rgba(8,104,255,0.08); }
+.process-step { color: var(--accent); background: #edf4ff; border-color: rgba(8,104,255,0.2); }
+.process-card p { color: #68707d; }
+.process-list span { color: #252b35; }
+.process-list span::before { background: var(--accent); box-shadow: none; }
+.process-cta { border-top-color: rgba(11,13,18,0.1); }
+.process-cta-copy { color: #68707d; }
+.process-cta-copy strong { color: #0b0d12; }
+
+/* Technology */
+.ai-section { padding: 7rem 0; background: #eef4fb; }
+.ai-section::before { opacity: 0.08; }
+.ai-title { color: #0b0d12; font-size: clamp(2.6rem, 5vw, 4.8rem); }
+.ai-desc { color: #626a77; }
+.ai-desc strong { color: #101827; }
+.model-card {
+  background: rgba(255,255,255,0.85);
+  border-color: rgba(11,13,18,0.09);
+  box-shadow: 0 10px 30px rgba(15,23,42,0.05);
+}
+.model-name { color: #10131a; }
+.model-use { color: #68707d; }
+.ai-chip { background: #fff; border-color: rgba(11,13,18,0.1); color: #555e6b; }
+
+/* About, services, certificates and contact */
+.about-card,
+.about-stat,
+.cert-card,
+.certs-intro,
+.contact-inner {
+  background: #fff;
+  border-color: rgba(11,13,18,0.1);
+  box-shadow: 0 22px 65px rgba(15,23,42,0.07);
+}
+.about-text p,
+.certs-intro-text p,
+.contact-left p { color: #626a77; }
+.about-text p strong { color: #0b0d12; }
+.skill-chip {
+  color: #172033;
+  background: #f3f6fa;
+  border-color: rgba(8,104,255,0.12);
+}
+.about-stat .n { color: var(--accent); }
+.services-grid { grid-template-columns: repeat(2, minmax(0,1fr)); gap: 1.5rem; }
+.service-card {
+  min-height: 330px;
+  padding: 2.5rem;
+  background: #fff;
+  border-color: rgba(11,13,18,0.1);
+  border-radius: 26px;
+  box-shadow: 0 18px 55px rgba(15,23,42,0.07);
+}
+.service-card:nth-child(4n+2) { background: #0d1728; color: #fff; }
+.service-card:nth-child(4n+2) p { color: #aab4c4; }
+.service-card:nth-child(4n+2) .tag { color: #d9e7ff; background: rgba(8,104,255,0.18); border-color: rgba(90,158,255,0.3); }
+.service-card:nth-child(4n+3) { background: #eaf3ff; }
+.service-card:hover { border-color: rgba(8,104,255,0.3); box-shadow: 0 28px 70px rgba(15,23,42,0.12); }
+.service-card p { color: #626a77; font-size: 0.98rem; }
+.service-card h3 { font-size: 1.5rem; }
+.service-icon { background: #e8f1ff; border-radius: 14px; }
+.tag { color: #245087; background: #edf4ff; border-color: rgba(8,104,255,0.14); }
+.cert-name { color: #0b0d12; }
+.contact-inner { padding: 4.5rem; }
+.contact-left h2 { color: #0b0d12; font-size: clamp(2.5rem, 5vw, 5rem); }
+.contact-link { color: #111827; background: #f2f6fb; border-color: rgba(11,13,18,0.09); }
+.contact-link:hover { background: #eaf2ff; border-color: rgba(8,104,255,0.24); }
+.form-group input,
+.form-group textarea { color: #111827; background: #f5f7fa; border-color: rgba(11,13,18,0.12); }
+
+/* Results remain dark like a focused case study. */
+#page-wyniki {
+  color: #f8fafc;
+  background: #09111f;
+  --text: #f8fafc;
+  --muted: #9da9ba;
+  --border: rgba(255,255,255,0.1);
+  --card: #111c2d;
+}
+#page-wyniki .wyniki-hero,
+#page-wyniki .chart-card { background: #111c2d; border-color: rgba(255,255,255,0.1); }
+
+footer { background: #fff; color: #0b0d12; border-top-color: rgba(11,13,18,0.1); }
+footer p { color: #69717d; }
+
+/* Modal intentionally stays dark to frame the work. */
+.project-detail-dialog { --text: #f0f4ff; --muted: #919aab; --border: rgba(255,255,255,0.1); }
+.project-detail-dialog .project-title,
+.project-detail-dialog .project-detail-title { color: #f8fafc; }
+.project-detail-dialog .project-section,
+.project-detail-dialog .project-stats-section { display: block; }
+.project-detail-dialog .project-tags { display: flex; }
+.project-detail-dialog .project-link { display: inline-flex; }
+
+@media (max-width: 900px) {
+  .hero { min-height: auto; padding-top: 8rem; }
+  .hero-name { font-size: clamp(3.2rem, 10vw, 5.8rem); }
+  .preview-grid .project-card { flex-basis: min(680px, 82vw); }
+  .services-grid { grid-template-columns: 1fr; }
+  .process-grid { grid-template-columns: repeat(2, minmax(0,1fr)); }
+  .process-card:nth-child(2) { border-right: 0; }
+  .process-card:nth-child(-n+2) { border-bottom: 1px solid rgba(11,13,18,0.12); }
+}
+
+@media (max-width: 700px) {
+  nav { padding: 1rem 1.25rem; }
+  .hero { padding: 7rem 1.25rem 4rem; align-items: flex-start; text-align: left; }
+  .hero-eyebrow { align-self: flex-start; }
+  .hero-eyebrow::before { display: none; }
+  .hero-name {
+    width: 100%;
+    font-size: clamp(2.2rem, 9.5vw, 3rem);
+    line-height: 1.01;
+    letter-spacing: -0.065em;
+    overflow-wrap: normal;
+    word-break: normal;
+  }
+  .hero-name span { white-space: nowrap; }
+  .hero-roles,
+  .hero-cta-group { justify-content: flex-start; }
+  .hero-desc { margin-left: 0; text-align: left; }
+  .hero-cta-group { width: 100%; align-items: stretch; }
+  .hero-cta-group .btn-primary,
+  .hero-cta-group .btn-ghost { justify-content: center; }
+  .hero-stats-row { width: 100%; }
+  .scroll-hint { align-self: center; }
+  .home-preview { padding: 4.5rem 0; }
+  .home-preview .container { padding-left: 1.25rem; }
+  .home-preview-header { padding-right: 1.25rem; align-items: flex-end; }
+  .home-preview .section-title { font-size: 2.5rem; }
+  .behance-card { margin-right: 1.25rem !important; padding: 1.5rem; gap: 1rem; }
+  .behance-icon { width: 50px; height: 50px; }
+  .preview-grid { padding-right: 1.25rem; }
+  .preview-grid .project-card { flex-basis: 86vw; }
+  .preview-grid .img-carousel img,
+  .preview-grid .img-placeholder { height: 330px; }
+  .page-header h1,
+  .contact-left h2,
+  .process-head h2,
+  .ai-title,
+  .stats-section-header h2 {
+    font-size: clamp(2.25rem, 12vw, 3.5rem);
+    line-height: 1.02;
+    letter-spacing: -0.05em;
+    overflow-wrap: anywhere;
+  }
+  .process-section,
+  .ai-section { padding: 4.5rem 0; }
+  .process-head { align-items: flex-start; text-align: left; }
+  .process-head > div { justify-items: start; }
+  .process-head p { text-align: left; }
+  .process-grid { grid-template-columns: 1fr; }
+  .process-card { border-right: 0; border-bottom: 1px solid rgba(11,13,18,0.12); min-height: auto; }
+  .process-card:last-child { border-bottom: 0; }
+  .contact-inner { padding: 1.5rem; border-radius: 20px; }
+  .contact-left,
+  .contact-form { min-width: 0; }
+  .contact-left h2 br { display: block; }
+  .contact-left h2 {
+    font-size: clamp(1.4rem, 6vw, 1.9rem);
+    overflow-wrap: normal;
+    word-break: normal;
+  }
+  .contact-link { width: 100%; overflow: hidden; }
+  .projects-top-row,
+  .projects-grid { grid-template-columns: 1fr; }
 }
 </style>
 </head>
@@ -1314,7 +1936,7 @@ footer p { font-size: 0.82rem; color: var(--muted); }
 <!-- ========== HOME ========== -->
 <div class="page active" id="page-home">
   <section class="hero">
-    <div class="hero-eyebrow">Marketing Freelancer</div>
+    <div class="hero-eyebrow">Marketing oparty na danych</div>
 
     <h1 class="hero-name" id="hero-name">Szymon</h1>
 
@@ -1642,6 +2264,7 @@ footer p { font-size: 0.82rem; color: var(--muted); }
     <div class="filter-bar" id="filter-bar">
       <span class="filter-chip active" onclick="filterProjects(this,'all')">Wszystkie</span>
     </div>
+    <div class="projects-top-row" id="projects-top-row"></div>
     <div class="projects-grid" id="projects-grid"></div>
   </div>
 </div>
@@ -1701,7 +2324,7 @@ footer p { font-size: 0.82rem; color: var(--muted); }
     <div class="contact-inner fade-in">
       <div class="contact-left">
         <div class="section-label">Kontakt</div>
-        <h2>Porozmawiajmy o<br><span>Twoim projekcie</span></h2>
+        <h2>Porozmawiajmy<br><span>o Twoim projekcie</span></h2>
         <p>Mam wolne miejsca na nowych klientów. Napisz, opowiedz mi o swoim biznesie — odpiszę w ciągu 24h.</p>
         <a id="link-email" href="mailto:" class="contact-link"><div class="icon">✉️</div><span id="text-email">kontakt@szymon.pl</span></a>
         <a id="link-linkedin" href="#" target="_blank" class="contact-link"><div class="icon">💼</div>LinkedIn</a>
@@ -1957,6 +2580,13 @@ footer p { font-size: 0.82rem; color: var(--muted); }
   <img id="lightbox-img" src="" alt="">
 </div>
 
+<div class="project-detail-modal" id="project-detail-modal" aria-hidden="true">
+  <div class="project-detail-backdrop" onclick="closeProjectDetail()"></div>
+  <div class="project-detail-dialog" role="dialog" aria-modal="true" aria-label="Szczegóły realizacji" onclick="event.stopPropagation()">
+    <div class="project-detail-content" id="project-detail-content"></div>
+  </div>
+</div>
+
 <script>
 // ============ NAVIGATION ============
 function toggleMenu() {
@@ -2147,6 +2777,144 @@ async function init() {
   const data = await loadData();
   if (!data) { renderProjects([]); renderServices([]); return; }
 
+  // Preview-only addition; leave the published portfolio data unchanged.
+  if (!(data.projects || []).some(project => project.id === 'oxylion-001')) {
+    data.projects = [...(data.projects || []), {
+      id: 'oxylion-001',
+      title: 'Oxylion - Prowadzenie social mediów i budowanie zasięgów',
+      client: 'Oxylion',
+      category: 'Social Media',
+      status: 'published',
+      desc: 'Prowadzenie social mediów marki Oxylion z naciskiem na budowanie zasięgów i rozpoznawalności. Tworzenie treści i grafik, które przybliżają ofertę marki, wyjaśniają zagadnienia technologiczne i angażują odbiorców. Spójna komunikacja łączy materiały edukacyjne z prezentacją usług. Poniżej wybrane przykłady publikacji przygotowanych w ramach współpracy.',
+      url: 'https://www.oxylion.pl/',
+      tags: ['Prowadzenie social mediów', 'Budowanie zasięgów', 'Content Marketing', 'Grafika'],
+      images: ['assets/oxylion/205.webp', 'assets/oxylion/206.webp', 'assets/oxylion/207.webp', 'assets/oxylion/208.webp', 'assets/oxylion/209.webp']
+    }];
+  }
+
+  if (!(data.projects || []).some(project => project.id === 'profotoria-001')) {
+    data.projects = [...(data.projects || []), {
+      id: 'profotoria-001',
+      title: 'Profotoria - Marketing, social media i kampanie Meta',
+      client: 'Profotoria', category: 'Social Media', status: 'published',
+      galleryLayout: 'carousel',
+      reel: 'assets/profotoria/rolka.mp4',
+      carouselTitle: 'Od zainteresowania do rezerwacji',
+      collectionTitle: 'Komunikacja dla fotografów.',
+      additionalCarousels: [{
+        title: 'Organizacja sesji w jednym miejscu',
+        images: ['assets/profotoria/organizacja/1.webp', 'assets/profotoria/organizacja/2.webp', 'assets/profotoria/organizacja/3.webp']
+      }],
+      desc: 'Działania marketingowe dla Profotorii obejmowały prowadzenie social mediów, przygotowanie treści i grafik oraz kampanie Meta Ads. Komunikacja skupiała się na prezentacji marki i jej oferty, łącząc publikacje w social mediach z działaniami reklamowymi. Spójna oprawa wizualna porządkowała przekaz i podkreślała charakter marki. Poniżej wybrana karuzela dla niemieckojęzycznych odbiorców - fragment materiałów przygotowanych w ramach współpracy.',
+      tags: ['Działania marketingowe', 'Prowadzenie social mediów', 'Meta Ads', 'Content i grafika'],
+      images: Array.from({length: 7}, (_, i) => 'assets/profotoria/' + (i + 1) + '.webp')
+    }];
+  }
+
+  if (!(data.projects || []).some(project => project.id === 'handlersi-001')) {
+    data.projects = [...(data.projects || []), {
+      id: 'handlersi-001', title: 'Handlersi - Social media i rolki',
+      client: 'Handlersi', category: 'Social Media', status: 'published',
+      desc: 'Wybrane materiały do social mediów przygotowane dla marki Handlersi. Karuzele produktowe prezentują samochody i ich detale, a publikacje edukacyjne poruszają tematy związane z wyborem auta do firmy. Całość uzupełniają rolki - kolejny fragment komunikacji marki.',
+      tags: ['Social Media', 'Karuzele', 'Video', 'Rolki'],
+      images: ['assets/handlersi/1.webp', 'assets/handlersi/2.webp', 'assets/handlersi/3.webp'],
+      galleryLayout: 'carousel',
+      carouselTitle: 'Porsche Taycan GTS - post karuzelowy',
+      additionalCarousels: [{
+        title: 'Audi e-tron 55 quattro S line - post karuzelowy',
+        images: ['assets/handlersi/audi/1.webp', 'assets/handlersi/audi/2.webp', 'assets/handlersi/audi/3.webp', 'assets/handlersi/audi/4.webp']
+      }, {
+        title: 'Odliczenia podatkowe a typ napędu - karuzela edukacyjna',
+        images: ['assets/handlersi/odliczenia/1.webp', 'assets/handlersi/odliczenia/2.webp', 'assets/handlersi/odliczenia/3.webp']
+      }],
+      reels: ['assets/handlersi/web-1.mp4', 'assets/handlersi/web-2.mp4', 'assets/handlersi/web-3.mp4', 'assets/handlersi/web-4.mp4']
+    }];
+  }
+
+  data.projects = (data.projects || []).map(project => project.id === 'autonakorfu-001' ? {
+    ...project,
+    reels: [...(project.reels || []), 'assets/autonakorfu/rolka-1.mp4', 'assets/autonakorfu/rolka-2.mp4'],
+    reelPosters: [...(project.reelPosters || []), 'assets/autonakorfu/poster-1.jpg', 'assets/autonakorfu/poster-2.jpg'],
+    additionalCarousels: [...(project.additionalCarousels || []), {
+      title: 'Poznaj naszą flotę - Segment A',
+      images: ['assets/autonakorfu/segment-a/1.webp', 'assets/autonakorfu/segment-a/2.webp', 'assets/autonakorfu/segment-a/3.webp', 'assets/autonakorfu/segment-a/4.webp']
+    }]
+  } : project);
+
+  data.projects = data.projects.map(project => project.id === 'azzuro-001' ? {
+    ...project,
+    images: [...(project.images || []), 'assets/azzuro/ghost-e-asx.webp'],
+    imageCaptions: {...(project.imageCaptions || {}), 'assets/azzuro/ghost-e-asx.webp': 'Kreacja reklamowa - GHOST E-ASX Essential High'}
+  } : project);
+
+  data.projects = data.projects.map(project => project.id === 'smclegal-001' ? {
+    ...project,
+    images: [...(project.images || []), 'assets/smclegal/nakaz-zaplaty.webp'],
+    imageCaptions: {...(project.imageCaptions || {}), 'assets/smclegal/nakaz-zaplaty.webp': 'Kreacja reklamowa - nakaz zapłaty'},
+    aiVideo: 'assets/smclegal/postac-ai.mp4',
+    aiVideoPoster: 'assets/smclegal/postac-ai.jpg',
+    reportedResults: [
+      {number: '+100', label: 'obserwujących'},
+      {number: '90+', label: 'pozyskanych leadów'},
+      {number: '40 tys.+', label: 'wyświetleń'}
+    ]
+  } : project);
+
+  if (!data.projects.some(project => project.id === 'radek-buslowicz-001')) {
+    data.projects.push({
+      id: 'radek-buslowicz-001',
+      title: 'Radek Buslowicz - Social Media & Content',
+      client: 'Radek Buslowicz - Trener Personalny',
+      desc: 'Prowadzenie social media dla trenera personalnego specjalizującego się w treningach indywidualnych i budowaniu formy. Tworzenie grafik sprzedażowych, postów edukacyjnych, treści angażujących oraz komunikacji nastawionej na pozyskiwanie nowych klientów.',
+      category: 'Social Media',
+      status: 'published',
+      tags: ['Social Media', 'Content', 'Grafiki sprzedażowe'],
+      images: ['assets/radek-buslowicz/kreacja.jpg'],
+      imageCaptions: {'assets/radek-buslowicz/kreacja.jpg': 'Radek Buslowicz - grafika do social mediów'}
+    });
+  }
+
+  if (!data.projects.some(project => project.id === 'ekierownik-001')) {
+    data.projects.push({
+      id: 'ekierownik-001',
+      title: 'Ekierownik - Marketing i social media',
+      client: 'Ekierownik',
+      desc: 'Działania marketingowe i prowadzenie social mediów dla marki Ekierownik. Komunikacja łączy prezentację usług z edukacją osób planujących budowę. Karuzela o izolacji fundamentów pokazuje, jak szczegóły kontroli na budowie przekładają się na zrozumiałe treści dla inwestora. Poniższe publikacje i wideo to wybrane materiały z szerszej współpracy.',
+      category: 'Social Media',
+      status: 'published',
+      tags: ['Działania marketingowe', 'Prowadzenie social mediów', 'Wideo'],
+      images: ['assets/ekierownik/izolacja/1.jpg', 'assets/ekierownik/izolacja/2.jpg', 'assets/ekierownik/izolacja/3.jpg', 'assets/ekierownik/izolacja/4.jpg', 'assets/ekierownik/izolacja/5.jpg'],
+      galleryLayout: 'carousel',
+      carouselTitle: 'Izolacja fundamentów - karuzela edukacyjna',
+      reels: ['assets/ekierownik/rolka.mp4', 'assets/ekierownik/rolka-2.mp4'],
+      reelPosters: ['assets/ekierownik/poster.jpg', 'assets/ekierownik/poster-2.jpg']
+    });
+  }
+
+  data.projects = data.projects.map(project => project.id === 'wallflow-001' ? {
+    ...project,
+    reels: ['assets/wallflow/rolka.mp4', 'assets/wallflow/realizacje-klientow.mp4'],
+    reelPosters: ['assets/wallflow/poster.jpg', 'assets/wallflow/realizacje-klientow.jpg'],
+    adVideo: 'assets/wallflow/reklama-meta.mp4',
+    adPoster: 'assets/wallflow/reklama-meta.jpg',
+    adDescription: 'Kreacja reklamowa wideo przygotowana dla Wallflow z myślą o kampaniach Meta Ads na Facebooku i Instagramie. Materiał prezentuje ofertę marki w formacie dopasowanym do płatnej komunikacji w social mediach. Jego zadaniem jest przyciągnięcie uwagi odbiorcy, wzbudzenie zainteresowania drukiem ściennym i zachęcenie do kontaktu.'
+  } : project);
+
+  if (!data.projects.some(project => project.id === 'intervue-001')) {
+    data.projects.push({
+      id: 'intervue-001',
+      title: 'Intervue - Marketing i komunikacja marki',
+      client: 'Intervue',
+      desc: 'Intervue pomaga przygotować się do rozmowy o pracę poprzez trening z AI. Współpraca obejmowała działania marketingowe, prowadzenie social mediów, współpracę z twórcami oraz zarządzanie projektem. Komunikacja przedstawiała możliwości produktu w przystępny sposób, łącząc potrzeby kandydatów z konkretnymi zastosowaniami narzędzia. Prezentowana karuzela prowadzi odbiorcę od zaproszenia do treningu, przez sposób działania, po informację zwrotną po rozmowie. To wybrany materiał z szerszych działań dla marki.',
+      category: 'Social Media',
+      status: 'published',
+      tags: ['Działania marketingowe', 'Prowadzenie social mediów', 'Współpraca z twórcami', 'Zarządzanie projektem'],
+      images: ['assets/intervue/1.webp', 'assets/intervue/2.webp', 'assets/intervue/3.webp'],
+      galleryLayout: 'carousel',
+      carouselTitle: 'Trening rozmowy o pracę - karuzela produktowa'
+    });
+  }
+
   const p = data.profile || {};
   const settings = data.settings || {};
 
@@ -2156,8 +2924,10 @@ async function init() {
   document.querySelectorAll('.nav-logo, footer .logo').forEach(el => el.innerHTML = name + '<span>.</span>');
   document.getElementById('avatar-initials').textContent = initial;
   document.getElementById('about-name').textContent = name;
-  if (document.getElementById('hero-name')) document.getElementById('hero-name').textContent = name;
-  document.getElementById('page-title').textContent = name + ' — Portfolio';
+  if (document.getElementById('hero-name')) {
+    document.getElementById('hero-name').innerHTML = 'Zwiększam <span>sprzedaż.</span><br>Buduję silniejsze <span>marki.</span>';
+  }
+  document.getElementById('page-title').textContent = name + ' | Marketing i Social Media';
   document.getElementById('footer-copy').textContent = '© ' + new Date().getFullYear() + ' Szymon Popiołek. Wszelkie prawa zastrzeżone.';
   if (p.tagline) document.getElementById('about-tagline').textContent = p.tagline;
   const aboutLocation = document.getElementById('about-location');
@@ -2208,18 +2978,50 @@ function renderServices(services) {
 // ============ PROJECTS ============
 let allProjects = [];
 let activeFilter = 'all';
+let projectLookup = new Map();
+
+function slugify(value) {
+  return String(value || 'projekt')
+    .toLowerCase()
+    .normalize('NFD')
+    .replace(/[\u0300-\u036f]/g, '')
+    .replace(/[^a-z0-9]+/g, '-')
+    .replace(/^-+|-+$/g, '') || 'projekt';
+}
+
+function normalizeProjects(projects) {
+  return (projects || []).map((project, index) => {
+    const baseId = project.id != null ? String(project.id) : (project.slug || project.title || 'projekt');
+    return Object.assign({}, project, { __key: slugify(baseId) + '-' + index });
+  });
+}
+
+function getProjectStats(project) {
+  return [
+    project.stat1num ? { number: project.stat1num, label: project.stat1label || 'Wynik projektu' } : null,
+    project.stat2num ? { number: project.stat2num, label: project.stat2label || 'Kluczowy efekt' } : null,
+    project.stat3num ? { number: project.stat3num, label: project.stat3label || 'Krótka statystyka' } : null
+  ].filter(Boolean);
+}
+
+function truncateText(text, maxLength) {
+  const source = String(text || '').trim();
+  if (!source || source.length <= maxLength) return source;
+  return source.slice(0, maxLength).trim().replace(/[.,;:!?-]*$/, '') + '...';
+}
 
 function renderProjects(projects) {
-  allProjects = projects;
+  allProjects = normalizeProjects(projects);
+  projectLookup = new Map(allProjects.map(project => [project.__key, project]));
   // Build filter bar
-  const cats = [...new Set(projects.map(p => p.category).filter(Boolean))];
+  const cats = [...new Set(allProjects.map(p => p.category).filter(Boolean))];
   const bar = document.getElementById('filter-bar');
-  bar.innerHTML = `<span class="filter-chip active" onclick="filterProjects(this,'all')">Wszystkie (${projects.length})</span>` +
+  bar.innerHTML = `<span class="filter-chip active" onclick="filterProjects(this,'all')">Wszystkie (${allProjects.length})</span>` +
     cats.map(c => {
-      const count = projects.filter(p => p.category === c).length;
+      const count = allProjects.filter(p => p.category === c).length;
       return `<span class="filter-chip" onclick="filterProjects(this,'${c}')">${c} (${count})</span>`;
     }).join('');
-  displayProjects(projects);
+  displayProjects(allProjects);
 }
 
 function filterProjects(el, cat) {
@@ -2231,8 +3033,10 @@ function filterProjects(el, cat) {
 }
 
 function displayProjects(projects) {
+  const topRow = document.getElementById('projects-top-row');
   const grid = document.getElementById('projects-grid');
   if (!projects.length) {
+    topRow.innerHTML = '';
     grid.innerHTML = '<div class="empty-state"><div class="icon">🗂️</div><p>Brak projektów. Dodaj je w panelu admina.</p></div>';
     return;
   }
@@ -2255,7 +3059,7 @@ function displayProjects(projects) {
     </div>
   </a>`;
 
-  const behanceReels = `<a href="https://www.behance.net/gallery/247470919/Rolki" target="_blank" class="behance-realizacje fade-in">
+const behanceReels = `<a href="https://www.behance.net/gallery/247470919/Rolki" target="_blank" class="behance-realizacje fade-in">
     <div class="beh-top" style="background:linear-gradient(135deg,#e1306c,#833ab4,#fd1d1d)">
       <div class="beh-dots">
         <div class="beh-dot"></div><div class="beh-dot"></div>
@@ -2276,25 +3080,34 @@ function displayProjects(projects) {
     </div>
   </a>`;
 
-  grid.innerHTML = behanceCard + behanceReels + sorted.map(p => buildProjectCard(p)).join('');
-  grid.querySelectorAll('.fade-in').forEach((el,i) => {
+  const showFeaturedTop = activeFilter === 'all';
+  if (showFeaturedTop) {
+    const firstTwoProjects = sorted.slice(0, 2);
+    const remainingProjects = sorted.slice(2);
+    topRow.innerHTML = [behanceCard, ...firstTwoProjects.map(p => buildProjectCard(p))].join('');
+    grid.innerHTML = [behanceReels, ...remainingProjects.map(p => buildProjectCard(p))].join('');
+  } else {
+    topRow.innerHTML = '';
+    grid.innerHTML = sorted.map(p => buildProjectCard(p)).join('');
+  }
+
+  document.querySelectorAll('#page-realizacje .fade-in').forEach((el,i) => {
     setTimeout(() => el.classList.add('visible'), i * 80);
   });
 }
 
 function buildProjectCard(p) {
   const imgs = p.images || [];
-  const stats = [
-    p.stat1num ? { number: p.stat1num, label: p.stat1label || 'Wynik projektu' } : null,
-    p.stat2num ? { number: p.stat2num, label: p.stat2label || 'Kluczowy efekt' } : null,
-    p.stat3num ? { number: p.stat3num, label: p.stat3label || 'Krótka statystyka' } : null
-  ].filter(Boolean);
+  const stats = getProjectStats(p).slice(0, 2);
+  const tags = (p.tags || []).slice(0, 4);
+  const hiddenTags = Math.max((p.tags || []).length - tags.length, 0);
+  const actionText = 'Wejdź w realizację';
 
   return `
     <div class="project-card${p.status==='featured'?' featured':''} fade-in">
-      <div class="img-carousel" data-images='${JSON.stringify(imgs)}' data-idx="0">
+      <div class="img-carousel is-clickable" data-images='${JSON.stringify(imgs)}' data-idx="0" data-action="detail" data-project-key="${p.__key}">
         ${imgs.length ? `
-          <img src="${imgs[0]}" alt="${p.title}" onclick="openLightbox('${imgs[0]}')" style="cursor:zoom-in">
+          <img src="${imgs[0]}" alt="${p.title}" onclick="openProjectDetail('${p.__key}')">
           ${imgs.length > 1 ? `
             <button class="carousel-nav prev" onclick="carouselNav(event,this.closest('.img-carousel'),-1)">‹</button>
             <button class="carousel-nav next" onclick="carouselNav(event,this.closest('.img-carousel'),1)">›</button>
@@ -2312,25 +3125,18 @@ function buildProjectCard(p) {
           </div>
           ${p.client ? `<div class="project-client">${p.client}</div>` : ''}
         </div>
-        ${p.desc ? `<div class="project-section project-section-soft">
-          <div class="project-section-label">Opis realizacji</div>
-          <div class="project-desc">${p.desc}</div>
-        </div>` : ''}
+        ${p.desc ? `<div class="project-summary">${truncateText(p.desc, 170)}</div>` : ''}
         ${stats.length ? `<div class="project-section project-stats-section">
-          <div class="project-section-label">Efekt / wynik</div>
-          <div class="project-stats">
-            ${stats.map(stat => `<div class="pstat"><div class="n">${stat.number}</div><div class="l">${stat.label}</div></div>`).join('')}
+          <div class="project-section-label">W galerii projektu</div>
+          <div class="project-stats compact">
+            ${stats.map(stat => `<div class="pstat compact"><div class="n">${stat.number}</div><div class="l">${stat.label}</div></div>`).join('')}
           </div>
         </div>` : ''}
-        ${(p.tags||[]).length ? `<div class="project-section">
-          <div class="project-section-label">Zakres prac</div>
-          <div class="project-tags">${(p.tags||[]).map(t=>`<span class="tag">${t}</span>`).join('')}</div>
-        </div>` : ''}
+        ${tags.length ? `<div class="project-tags">${tags.map(t=>`<span class="tag">${t}</span>`).join('')}${hiddenTags ? `<span class="tag more">+${hiddenTags}</span>` : ''}</div>` : ''}
         <div class="project-actions">
-          <div class="project-note">${imgs.length ? 'Kliknij zdjęcie, aby powiększyć galerię.' : 'Dodaj zdjęcia, aby pokazać pełny efekt realizacji.'}</div>
-          ${p.url ? `<a href="${p.url}" target="_blank" class="project-link">Zobacz projekt ↗</a>` : ''}
+          <div class="project-note">${imgs.length > 1 ? 'Przewijaj zdjęcia na kafelku lub otwórz pełny projekt.' : 'Otwórz pełny projekt, żeby zobaczyć szczegóły.'}</div>
+          <button class="project-open-btn" onclick="openProjectDetail('${p.__key}')">${actionText} →</button>
         </div>
-        ${renderVideoEmbed(p.youtubeUrl)}
       </div>
     </div>
   `;
@@ -2339,8 +3145,9 @@ function buildProjectCard(p) {
 // ============ HOME PREVIEW ============
 function renderHomePreview(projects) {
   const grid = document.getElementById('home-preview-grid');
-  const featured = projects.filter(p => p.status === 'featured');
-  const preview = (featured.length ? featured : projects).slice(0, 3);
+  const normalized = normalizeProjects(projects);
+  const featured = normalized.filter(p => p.status === 'featured');
+  const preview = (featured.length ? featured : normalized).slice(0, 3);
   if (!preview.length) { grid.innerHTML = '<p style="color:var(--muted);font-size:0.9rem">Dodaj pierwsze projekty w panelu admina.</p>'; return; }
   grid.innerHTML = preview.map(p => buildProjectCard(p)).join('');
   grid.querySelectorAll('.fade-in').forEach((el,i) => setTimeout(() => el.classList.add('visible'), 200 + i*100));
@@ -2362,7 +3169,11 @@ function updateCarousel(wrap, images, idx) {
   wrap.dataset.idx = idx;
   const img = wrap.querySelector('img');
   img.src = images[idx];
-  img.onclick = () => openLightbox(images[idx]);
+  if (wrap.dataset.action === 'detail') {
+    img.onclick = () => openProjectDetail(wrap.dataset.projectKey);
+  } else {
+    img.onclick = () => openLightbox(images[idx]);
+  }
   wrap.querySelectorAll('.dot').forEach((d,i) => d.classList.toggle('active', i===idx));
 }
 
@@ -2413,13 +3224,87 @@ function renderVideoEmbed(youtubeUrl) {
   return `<div class="yt-wrap" style="aspect-ratio:${ratio};max-width:${maxW};margin:0.75rem auto 0"><iframe src="${embed.url}?rel=0&modestbranding=1" allowfullscreen loading="lazy" style="width:100%;height:100%;border:none"></iframe></div>`;
 }
 
+function buildProjectDetail(project) {
+  const imgs = project.images || [];
+  const stats = getProjectStats(project);
+  const actions = [];
+  return `
+    <div class="project-detail-shell">
+      <div class="project-detail-gallery">
+        <div class="img-carousel is-clickable" data-images='${JSON.stringify(imgs)}' data-idx="0" data-action="lightbox">
+          ${imgs.length ? `
+            <img src="${imgs[0]}" alt="${project.title}" onclick="openLightbox('${imgs[0]}')">
+            ${imgs.length > 1 ? `
+              <button class="carousel-nav prev" onclick="carouselNav(event,this.closest('.img-carousel'),-1)">‹</button>
+              <button class="carousel-nav next" onclick="carouselNav(event,this.closest('.img-carousel'),1)">›</button>
+              <div class="carousel-dots">${imgs.map((_,i)=>`<div class="dot${i===0?' active':''}" onclick="carouselGo(event,this.closest('.img-carousel'),${i})"></div>`).join('')}</div>
+            ` : ''}
+          ` : `<div class="img-placeholder">🖼️</div>`}
+          ${imgs.length ? `<span class="project-image-count">${imgs.length} ${imgs.length === 1 ? 'zdjęcie' : imgs.length < 5 ? 'zdjęcia' : 'zdjęć'}</span>` : ''}
+          ${project.status==='featured' ? '<span class="featured-badge">⭐ Wyróżnione</span>' : ''}
+        </div>
+        ${renderVideoEmbed(project.youtubeUrl)}
+      </div>
+      <div class="project-detail-side">
+        <div class="project-detail-top">
+          <div>
+            ${project.category ? `<div class="project-cat">${project.category}</div>` : ''}
+            <h2 class="project-detail-title">${project.title}</h2>
+          </div>
+          <button class="project-detail-close" onclick="closeProjectDetail()" aria-label="Zamknij">✕</button>
+        </div>
+        <div class="project-detail-meta">
+          ${project.client ? `<div class="project-client">${project.client}</div>` : '<div></div>'}
+          <div class="project-detail-note">${imgs.length ? 'Kliknij zdjęcie, żeby powiększyć je w galerii.' : 'Dodaj okładkę w panelu admina, żeby projekt wyglądał pełniej.'}</div>
+        </div>
+        ${project.desc ? `<div class="project-section project-section-soft">
+          <div class="project-section-label">Opis realizacji</div>
+          <div class="project-desc">${project.desc}</div>
+        </div>` : ''}
+        ${stats.length ? `<div class="project-section project-stats-section">
+          <div class="project-section-label">Efekt / wynik</div>
+          <div class="project-stats">
+            ${stats.map(stat => `<div class="pstat"><div class="n">${stat.number}</div><div class="l">${stat.label}</div></div>`).join('')}
+          </div>
+        </div>` : ''}
+        ${(project.tags || []).length ? `<div class="project-section">
+          <div class="project-section-label">Zakres prac</div>
+          <div class="project-tags">${(project.tags || []).map(t=>`<span class="tag">${t}</span>`).join('')}</div>
+        </div>` : ''}
+        ${actions.length ? `<div class="project-actions">${actions.join('')}</div>` : ''}
+      </div>
+    </div>
+  `;
+}
+
 // ============ LIGHTBOX ============
 function openLightbox(src) {
   document.getElementById('lightbox-img').src = src;
   document.getElementById('lightbox').classList.add('open');
 }
 function closeLightbox() { document.getElementById('lightbox').classList.remove('open'); }
-document.addEventListener('keydown', e => { if (e.key === 'Escape') closeLightbox(); });
+
+function openProjectDetail(projectKey) {
+  const project = projectLookup.get(projectKey);
+  if (!project) return;
+  document.getElementById('project-detail-content').innerHTML = buildProjectDetail(project);
+  document.getElementById('project-detail-modal').classList.add('open');
+  document.getElementById('project-detail-modal').setAttribute('aria-hidden', 'false');
+  document.body.style.overflow = 'hidden';
+}
+
+function closeProjectDetail() {
+  document.getElementById('project-detail-modal').classList.remove('open');
+  document.getElementById('project-detail-modal').setAttribute('aria-hidden', 'true');
+  document.body.style.overflow = '';
+}
+
+document.addEventListener('keydown', e => {
+  if (e.key === 'Escape') {
+    closeLightbox();
+    closeProjectDetail();
+  }
+});
 
 // ============ CONTACT ============
 function handleSubmit(e) {
@@ -3058,5 +3943,7 @@ document.querySelector('[data-page="home"]').classList.add('active');
 initNeural();
 init();
 </script>
+<script src="karts-preview.js"></script>
+<script src="portfolio-icons.js"></script>
 </body>
 </html>
