@@ -44,7 +44,8 @@
     const name = p.id === 'sufit-001' ? 'Samodzielny Sufit' : p.id === 'radek-buslowicz-001' ? 'Radek Buslowicz' : p.client || p.title;
     const alt = p.id === 'til-001' ? 'Ilustracja fotograficzna AI na podstawie materiałów Biura Rachunkowego TIL' : name;
     const scope = coverScopes[p.id] || (p.tags || []).slice(0, 3).join(' · ') || p.category;
-    return `<img src="${escape(p.cover || p.images?.[0])}" alt="${escape(alt)}" width="1600" height="1000" loading="lazy"><div class="kd-cover-copy"><h3>${escape(name)}</h3><p class="kd-cover-scope">${escape(scope)}</p></div><span class="kd-cover-arrow" aria-hidden="true">↗</span>`;
+    const responsive = p.cover ? ` srcset="${escape(p.cover.replace('.webp', '-480.webp'))} 480w, ${escape(p.cover.replace('.webp', '-800.webp'))} 800w, ${escape(p.cover)} 1600w" sizes="(max-width: 700px) 94vw, (max-width: 1400px) 46vw, 640px"` : '';
+    return `<img src="${escape(p.cover || p.images?.[0])}"${responsive} alt="${escape(alt)}" width="1600" height="1000" loading="lazy" decoding="async"><div class="kd-cover-copy"><h3>${escape(name)}</h3><p class="kd-cover-scope">${escape(scope)}</p></div><span class="kd-cover-arrow" aria-hidden="true">↗</span>`;
   }
   // Covers are separate assets: the original project galleries remain untouched.
   buildProjectCard = p => `<button type="button" class="project-card kd-cover-card fade-in" onclick="openProjectDetail('${escape(p.__key)}')" aria-label="Zobacz projekt ${escape(p.client || p.title)}">${coverContents(p)}</button>`;
@@ -90,7 +91,7 @@
         <div class="kd-feature kd-width"><div>${image(2)}${image(3)}</div><a href="https://www.behance.net/gallery/247470919/Rolki" target="_blank" rel="noopener"><span>VIDEO & REELS</span><h3>Historie, które<br>zatrzymują uwagę.</h3><span class="kd-play">↗</span><span>Zobacz rolki na Behance</span></a></div>
         <div class="kd-services kd-width"><span class="kd-label">W CZYM MOGĘ POMÓC</span><h2>Moje <span>usługi.</span></h2>${services.map((s,i)=>`<article class="kd-service kd-tone-${i}"><div class="kd-service-copy"><span class="kd-label">0${i+1} / SPECJALIZACJA</span><h3>${s[0]}</h3><ul>${s[1].map(x=>`<li>${x}</li>`).join('')}</ul><button onclick="showPage('uslugi')">Poznaj ofertę ↗</button></div>${i ? serviceVisual(i) : `<div class="kd-service-images">${image(s[2])}${image(s[3],1)}</div>`}</article>`).join('')}</div>
       </section>
-      <section class="kd-work kd-width"><div class="kd-section-heading"><h2>Wybrane <span>projekty.</span></h2><button class="kd-outline" onclick="showPage('realizacje')">Wszystkie realizacje ↗</button></div><div class="kd-project-rail">${ps.map(p=>`<button class="kd-project" data-key="${escape(p.__key)}"><div><img src="${escape(p.images[0])}" alt="${escape(p.title)}" loading="lazy"><span>↗</span></div><small>${escape(p.category || 'Realizacja')}</small><h3>${escape(p.title)}</h3></button>`).join('')}</div><div class="kd-rail-controls"><button data-scroll="-1" aria-label="Poprzednie projekty">←</button><span>Przewijaj i poznaj moje realizacje</span><button data-scroll="1" aria-label="Następne projekty">→</button></div></section>
+      <section class="kd-work kd-width"><div class="kd-section-heading"><h2>Wybrane <span>projekty.</span></h2><button class="kd-outline" onclick="showPage('realizacje')">Wszystkie realizacje ↗</button></div><div class="kd-project-rail">${ps.map(p=>`<button class="kd-project kd-cover-card" data-key="${escape(p.__key)}">${coverContents(p)}</button>`).join('')}</div><div class="kd-rail-controls"><button data-scroll="-1" aria-label="Poprzednie projekty">←</button><span>Przewijaj i poznaj moje realizacje</span><button data-scroll="1" aria-label="Następne projekty">→</button></div></section>
       <section class="kd-numbers kd-width"><h2>Dobry design przyciąga.<br><span>Przemyślany marketing rozwija.</span></h2><div><article><strong>40+</strong><span>Zrealizowanych projektów</span></article><article><strong>150+</strong><span>Uruchomionych kampanii</span></article><article><strong>1,5 mln</strong><span>Zł obsłużonego budżetu</span></article></div></section>
       <section class="kd-faq kd-width"><span class="kd-label">FAQ</span><h2>Warto <span>wiedzieć.</span></h2>${[
         ['Jak zaczynamy współpracę?','Zaczynamy od rozmowy o Twojej marce, potrzebach i celu. Następnie ustalamy zakres, harmonogram i budżet działań.'],
@@ -99,16 +100,11 @@
         ['Jak będę widzieć postępy?','Na początku ustalamy etapy i oczekiwane rezultaty. W trakcie współpracy omawiamy materiały, wyniki oraz kolejne działania.']
       ].map(([q,a],i)=>`<details ${i===0?'open':''}><summary>${q}<span>+</span></summary><p>${a}</p></details>`).join('')}</section>
       <section class="kd-final"><span class="kd-label">POROZMAWIAJMY O TWOJEJ MARCE</span><h2>Zróbmy razem<br><span>coś dobrego.</span></h2><button onclick="showPage('kontakt')">Zacznijmy współpracę ↗</button></section>`;
-    section.querySelectorAll('.kd-project').forEach((card, i) => {
-      card.classList.add('kd-cover-card');
-      card.innerHTML = coverContents(ps[i]);
-    });
     section.querySelector('.kd-label').textContent = 'SZYMON POPIOŁEK · MARKETING & DESIGN';
     section.querySelectorAll('[data-key]').forEach(el=>el.addEventListener('click',()=>openProjectDetail(el.dataset.key)));
     section.querySelectorAll('[data-scroll]').forEach(el=>el.addEventListener('click',()=>section.querySelector('.kd-project-rail').scrollBy({left:Number(el.dataset.scroll)*section.querySelector('.kd-project-rail').clientWidth*.75,behavior:'smooth'})));
   }
-  const original = renderHomePreview;
-  renderHomePreview = function(projects) { original(projects); render(projects); };
+  renderHomePreview = function(projects) { render(projects); };
   if (allProjects.length) render(allProjects);
   const projectPage = document.createElement('main');
   projectPage.id = 'page-case';
