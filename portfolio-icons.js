@@ -1,6 +1,9 @@
 /* One local outline icon set, including content rendered from admin data. */
 (function () {
   const paths = {
+    arrowUpRight: '<path d="M6 18 18 6M6 6h12v12"/>',
+    arrowRight: '<path d="M4 12h16m-6-6 6 6-6 6"/>',
+    arrowLeft: '<path d="M20 12H4m6-6-6 6 6 6"/>',
     bolt: '<path d="m13 2-9 12h7l-1 8 10-12h-7z"/>',
     sparkle: '<path d="m12 3 2.5 6.5L21 12l-6.5 2.5L12 21l-2.5-6.5L3 12l6.5-2.5z"/>',
     wand: '<path d="m4 20 12-12 4 4L8 24M14 10l4 4M5 3v4M3 5h4M18 2v4M16 4h4" transform="translate(0 -2)"/>',
@@ -23,6 +26,7 @@
     settings: '<path d="m9 3-1 3-3 1-2 5 2 5 3 1 1 3h6l1-3 3-1 2-5-2-5-3-1-1-3Z"/><circle cx="12" cy="12" r="3"/>'
   };
   const names = {'⚙':'settings','⚡':'bolt','🪄':'wand','🎨':'palette','🎬':'film','🎞':'film','✨':'sparkle','✦':'sparkle','📊':'chart','🎵':'music','✉':'mail','💼':'briefcase','💬':'chat','✅':'check','📍':'pin','🗂':'folder','🖼':'image','⭐':'star','📱':'phone','🎯':'target','🔍':'search','🤖':'bot'};
+  Object.assign(names, {'↗':'arrowUpRight', '→':'arrowRight', '←':'arrowLeft', '✓':'check'});
   const pattern = new RegExp('(' + Object.keys(names).join('|') + ')[\\uFE0E\\uFE0F]?', 'gu');
   function replace(root) {
     if (root.nodeType === 1 && root.closest('script,style,svg,textarea,input,[contenteditable]')) return;

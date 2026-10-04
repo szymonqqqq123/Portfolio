@@ -332,3 +332,24 @@ nav .nav-logo,footer .logo { font-family:'DM Sans',sans-serif; font-size:23px; l
   #page-realizacje .kd-cover-card picture img,
   .kd-home .kd-project.kd-cover-card picture img { transition: none; }
 }
+
+/* Shared typography and mobile layout corrections. */
+html { -webkit-text-size-adjust:100%; text-size-adjust:100%; }
+.mobile-menu a { font-family:'DM Sans',sans-serif; font-weight:500; letter-spacing:-.025em; }
+.about-stat .n,.certs-count,.stat-num,.kpi-val,.stat-block-value { font-family:'DM Sans',sans-serif; font-weight:600; letter-spacing:-.04em; font-variant-numeric:lining-nums; }
+.kd-reel-link .portfolio-icon,.kd-cover-arrow .portfolio-icon,.kd-play .portfolio-icon { width:1em; height:1em; }
+@media(max-width:700px) {
+  .kd-home .kd-showreel { height:auto !important; display:grid; grid-template-columns:minmax(0,1fr); gap:24px; padding:28px 24px !important; }
+  .kd-showreel .kd-reel-caption,.kd-showreel strong,.kd-showreel .kd-reel-images,.kd-showreel .kd-reel-link { position:static; inset:auto; transform:none; }
+  .kd-showreel strong { font-size:clamp(38px,10vw,54px) !important; line-height:1.06; letter-spacing:-.045em; }
+  .kd-showreel .kd-reel-images { display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:10px; }
+  .kd-showreel .kd-reel-images img { width:100%; height:auto; aspect-ratio:4/5; margin:0; border:3px solid #fff; border-radius:8px; animation:none; }
+  .kd-showreel .kd-reel-link { display:flex; justify-content:space-between; align-items:center; padding-top:16px; border-top:1px solid #ffffff26; }
+  .about-stats { grid-template-columns:repeat(3,minmax(0,1fr)) !important; gap:8px; }
+  .about-stat { padding:18px 6px; min-width:0; }
+  .about-stat .n { font-size:clamp(23px,6.2vw,30px); white-space:nowrap; font-weight:600; }
+  .about-stat .l { font-size:11px; }
+  .certs-intro { padding:24px; gap:20px; align-items:flex-start; }
+  .certs-count { font-size:42px; font-weight:500; }
+  .mobile-menu a { font-size:26px; line-height:1.25; }
+}
