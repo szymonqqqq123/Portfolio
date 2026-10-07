@@ -2928,6 +2928,23 @@ async function init() {
     });
   }
 
+  if (!data.projects.some(project => project.id === 'mila-shoes-001')) {
+    data.projects.push({
+      id: 'mila-shoes-001',
+      title: 'Mila Shoes - Content produktowy i rolki',
+      client: 'Mila Shoes',
+      desc: 'Elegancja pokazana w codziennym kontekście. Dla Mila Shoes powstały materiały do social mediów łączące estetyczną prezentację obuwia z komunikacją o wygodzie i polskim wykonaniu. Karuzela produktowa eksponuje fasony i detale kolekcji w ciepłej, spójnej oprawie wizualnej. Dwie rolki uzupełniają grafiki o dynamiczny format wideo. Poniżej wybrane realizacje przygotowane dla marki.',
+      category: 'Social Media',
+      status: 'published',
+      tags: ['Grafiki produktowe', 'Karuzela', 'Rolki', 'Content do social mediów'],
+      images: ['assets/mila-shoes/1.webp', 'assets/mila-shoes/2.webp', 'assets/mila-shoes/3.webp'],
+      galleryLayout: 'carousel',
+      carouselTitle: 'Styl i wygoda - karuzela produktowa',
+      reels: ['assets/mila-shoes/rolka-1.mp4', 'assets/mila-shoes/rolka-2.mp4'],
+      reelPosters: ['assets/mila-shoes/poster-1.jpg', 'assets/mila-shoes/poster-2.jpg']
+    });
+  }
+
   const p = data.profile || {};
   const settings = data.settings || {};
 
@@ -3956,7 +3973,7 @@ document.querySelector('[data-page="home"]').classList.add('active');
 initNeural();
 init();
 </script>
-<script src="karts-preview.js?v=mobile-2"></script>
+<script src="karts-preview.js?v=mila-shoes-1"></script>
 <script src="portfolio-icons.js?v=mobile-design-3"></script>
 </body>
 </html>

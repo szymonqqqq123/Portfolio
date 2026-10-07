@@ -19,6 +19,7 @@
     'oxylion-001': 'Technologia bliżej codziennych potrzeb. Dla Oxylion prowadzę social media i tworzę komunikację nastawioną na budowanie zasięgów oraz rozpoznawalności marki. Treści i grafiki łączą ofertę operatora z przystępną edukacją o internecie i telewizji. Widoczna poniżej karuzela o IPTV to przykład publikacji przygotowanej w ramach szerszej współpracy.'
   };
   const coverIds = new Set(['autonakorfu-001', 'smclegal-001', 'comodivo-001', 'wallflow-001', 'lissy-001', 'til-001', 'azzuro-001', 'sufit-001', 'oxylion-001', 'profotoria-001', 'handlersi-001', 'radek-buslowicz-001', 'ekierownik-001', 'intervue-001']);
+  coverIds.add('mila-shoes-001');
   const normalizeOriginal = normalizeProjects;
   normalizeProjects = projects => normalizeOriginal(projects).map(project => ({
     ...project, desc: descriptions[project.id] || project.desc,
@@ -38,7 +39,8 @@
     'handlersi-001': 'Social media, karuzele produktowe i produkcja rolek.',
     'radek-buslowicz-001': 'Social media, content i grafiki sprzedażowe.',
     'ekierownik-001': 'Działania marketingowe, social media i materiały wideo.',
-    'intervue-001': 'Marketing, social media, współpraca z twórcami i zarządzanie projektem.'
+    'intervue-001': 'Marketing, social media, współpraca z twórcami i zarządzanie projektem.',
+    'mila-shoes-001': 'Grafiki produktowe i rolki do social mediów.'
   };
   function coverContents(p, priority = false) {
     const name = p.id === 'sufit-001' ? 'Samodzielny Sufit' : p.id === 'radek-buslowicz-001' ? 'Radek Buslowicz' : p.client || p.title;
